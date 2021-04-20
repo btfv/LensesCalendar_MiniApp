@@ -12,9 +12,10 @@ import { connect } from 'react-redux';
 import Home from './panels/Home';
 import Persik from './panels/Persik';
 import AppActions from './redux/actions/app.actions';
+import UserActions from './redux/actions/user.actions';
 
 const App = (props) => {
-	const { spin, startSpinner, stopSpinner } = props;
+	const { spin, startSpinner, stopSpinner, data, getData } = props;
 
 	const [activePanel, setActivePanel] = useState('home');
 	const [fetchedUser, setUser] = useState(null);
@@ -36,7 +37,9 @@ const App = (props) => {
 		}
 		fetchData();
 	}, []);
-
+	if (!data && !spin) {
+		getData();
+	}
 	const go = (e) => {
 		setActivePanel(e.currentTarget.dataset.to);
 	};
@@ -59,12 +62,13 @@ const App = (props) => {
 const mapStateToProps = (state) => {
 	return {
 		spin: state.AppReducer.spin,
+		data: state.UserReducer.data,
 	};
 };
 
 const mapDispatchToProps = {
 	startSpin: AppActions.startSpinner,
-
+	getData: UserActions.getData,
 	stopSpin: AppActions.stopSpinner,
 };
 

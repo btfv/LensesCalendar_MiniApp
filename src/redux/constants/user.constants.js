@@ -1,4 +1,4 @@
 const UserConstants = {
-	DATA_SUCCESS: 'STOP_SPINNER',
+	DATA_SUCCESS: 'DATA_SUCCESS',
 };
 export default UserConstants;

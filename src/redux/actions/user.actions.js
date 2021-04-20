@@ -4,10 +4,10 @@ import AppActions from './app.actions';
 
 const UserActions = {};
 
-UserActions.getData = async () => {
+UserActions.getData = () => {
 	return (dispatch) => {
 		dispatch(AppActions.startSpinner);
-		await UserServices.getData().then((data) => {
+		UserServices.getData().then((data) => {
 			dispatch({ type: UserConstants.DATA_SUCCESS, data });
 		});
         dispatch(AppActions.stopSpinner);
