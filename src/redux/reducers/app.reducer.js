@@ -1,7 +1,7 @@
 import AppConstants from '../constants/app.constants';
 
 const initialState = {
-	spin: true,
+	spin: false,
 };
 
 export default function AppReducer(state = initialState, action) {

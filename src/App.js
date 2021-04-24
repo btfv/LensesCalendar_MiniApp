@@ -5,6 +5,8 @@ import {
 	ScreenSpinner,
 	AdaptivityProvider,
 	AppRoot,
+	Panel,
+	PanelHeader,
 } from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
 import { connect } from 'react-redux';
@@ -13,6 +15,7 @@ import Home from './panels/Home';
 import Persik from './panels/Persik';
 import AppActions from './redux/actions/app.actions';
 import UserActions from './redux/actions/user.actions';
+import UserServices from './redux/services/user.service';
 
 const App = (props) => {
 	const { spin, startSpinner, stopSpinner, data, getData } = props;
@@ -20,7 +23,20 @@ const App = (props) => {
 	const [activePanel, setActivePanel] = useState('home');
 	const [fetchedUser, setUser] = useState(null);
 
+	const [stateData, setStateData] = useState(null);
+
+	const search = window.location.search;
+	const params = new URLSearchParams(search);
+	const paramsToObject = (entries) => {
+		const result = {};
+		for (const [key, value] of entries) {
+			result[key] = value;
+		}
+		return result;
+	}
+
 	useEffect(() => {
+		setStateData(UserServices.auth(paramsToObject(params)));
 		bridge.subscribe(({ detail: { type, data } }) => {
 			if (type === 'VKWebAppUpdateConfig') {
 				const schemeAttribute = document.createAttribute('scheme');
@@ -31,15 +47,13 @@ const App = (props) => {
 			}
 		});
 		async function fetchData() {
+			startSpinner();
 			const user = await bridge.send('VKWebAppGetUserInfo');
 			setUser(user);
 			stopSpinner();
 		}
 		fetchData();
 	}, []);
-	if (!data && !spin) {
-		getData();
-	}
 	const go = (e) => {
 		setActivePanel(e.currentTarget.dataset.to);
 	};
@@ -53,6 +67,10 @@ const App = (props) => {
 				>
 					<Home id='home' fetchedUser={fetchedUser} go={go} />
 					<Persik id='persik' go={go} />
+					<Panel id='panel1'>
+						<PanelHeader>Data</PanelHeader>
+						<div>{JSON.stringify(stateData)}</div>
+					</Panel>
 				</View>
 			</AppRoot>
 		</AdaptivityProvider>
@@ -67,9 +85,9 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-	startSpin: AppActions.startSpinner,
+	startSpinner: AppActions.startSpinner,
 	getData: UserActions.getData,
-	stopSpin: AppActions.stopSpinner,
+	stopSpinner: AppActions.stopSpinner,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
