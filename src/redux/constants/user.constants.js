@@ -1,4 +1,8 @@
 const UserConstants = {
 	DATA_SUCCESS: 'DATA_SUCCESS',
+	
+	SWAP_LENSES_SUCCESS: 'SWAP_LENSES_SUCCESS',
+
+	SWAP_LIQUID_SUCCESS: 'SWAP_LIQUID_SUCCESS',
 };
 export default UserConstants;
