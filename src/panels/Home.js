@@ -47,7 +47,7 @@ const Home = ({
     {fetchedUser && (
       <Group
         header={
-          <Header mode='secondary'>User Data Fetched with VK Bridge</Header>
+          <Header mode='secondary'>Ваш профиль</Header>
         }
       >
         <Cell

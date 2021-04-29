@@ -4,8 +4,10 @@ import thunk from 'redux-thunk';
 
 import rootReducer from './reducers/root.reducer';
 
-const enhancers = [applyMiddleware(thunk), composeWithDevTools()];
-
+var enhancers;
+if (process.env.NODE_ENV === 'development')
+  enhancers = [applyMiddleware(thunk), composeWithDevTools()];
+else enhancers = [applyMiddleware(thunk)];
 const store = createStore(rootReducer, compose(...enhancers));
 
 export default store;
