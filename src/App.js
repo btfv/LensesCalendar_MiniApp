@@ -13,11 +13,12 @@ import Home from './panels/Home';
 import AppActions from './redux/actions/app.actions';
 import UserActions from './redux/actions/user.actions';
 import UserServices from './redux/services/user.service';
+import AddData from './panels/AddData';
 
 const App = (props) => {
   const { spin, startSpinner, stopSpinner, data, getData } = props;
 
-  const [activePanel, setActivePanel] = useState('home');
+  const [activePanel, setActivePanel] = useState('addData');
   const [fetchedUser, setUser] = useState(null);
 
   const search = window.location.search;
@@ -29,9 +30,10 @@ const App = (props) => {
     }
     return result;
   };
-
+  const go = (e) => {
+    setActivePanel(e.currentTarget.dataset.to);
+  };
   useEffect(() => {
-    UserServices.auth(paramsToObject(params)).then(getData);
     bridge.subscribe(({ detail: { type, data } }) => {
       if (type === 'VKWebAppUpdateConfig') {
         const schemeAttribute = document.createAttribute('scheme');
@@ -46,19 +48,30 @@ const App = (props) => {
       stopSpinner();
     }
     if (process.env.NODE_ENV === 'production') fetchData();
+    UserServices.auth(paramsToObject(params))
+      .then(getData)
+      .then((receivedData) => {
+        if (receivedData.lenses || receivedData.liquid) {
+          setActivePanel('home');
+        }
+      });
   }, []);
-  const go = (e) => {
-    setActivePanel(e.currentTarget.dataset.to);
-  };
   return (
     <AdaptivityProvider>
       <AppRoot>
         <View
           activePanel={activePanel}
-          popout={spin ? <ScreenSpinner size="large" /> : null}
+          popout={spin ? <ScreenSpinner size='large' /> : null}
         >
           <Home
-            id="home"
+            id='home'
+            fetchedUser={fetchedUser}
+            lensesInfo={data.lenses}
+            liquidInfo={data.liquid}
+            go={go}
+          />
+          <AddData
+            id='addData'
             fetchedUser={fetchedUser}
             lensesInfo={data.lenses}
             liquidInfo={data.liquid}

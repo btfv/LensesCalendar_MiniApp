@@ -1,24 +1,6 @@
 import UserConstants from '../constants/user.constants';
 
-const initialState = {
-  data: {
-    lenses: {
-      name: null,
-      swapDates: [],
-      periodicity: null,
-      manufacturer: null,
-      dioptreLeft: null,
-      dioptreRight: null,
-      curvatureLeft: null,
-      curvatureRight: null,
-    },
-    liquid: {
-      name: null,
-      swapDates: [],
-      manufacturer: null,
-    },
-  },
-};
+const initialState = { data: {} };
 
 export default function UserReducer(state = initialState, action) {
   switch (action.type) {
@@ -33,7 +15,7 @@ export default function UserReducer(state = initialState, action) {
         data: {
           ...state.data,
           lenses: {
-            ...state.lenses,
+            ...state.data.lenses,
             swapDates: [...state.data.lenses.swapDates, action.newDate],
           },
         },
@@ -44,8 +26,23 @@ export default function UserReducer(state = initialState, action) {
         data: {
           ...state.data,
           liquid: {
-            ...state.liquid,
+            ...state.data.liquid,
             swapDates: [...state.data.liquid.swapDates, action.newDate],
+          },
+        },
+      };
+    case UserConstants.ADD_DATA_SUCCESS:
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          lenses: {
+            ...state.data.lenses,
+            ...action.data.lenses,
+          },
+          liquid: {
+            ...state.data.liquid,
+            ...action.data.liquid,
           },
         },
       };

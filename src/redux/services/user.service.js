@@ -28,6 +28,24 @@ UserServices.getData = async () => {
   );
 };
 
+UserServices.addData = async (data) => {
+  console.log(data);
+  const requestOptions = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+    withCredentials: true,
+    credentials: 'include',
+    body: JSON.stringify(data),
+  };
+  let reqUrl = '/data';
+  return fetch(process.env.REACT_APP_API_URL + reqUrl, requestOptions).then(
+    handleResponse
+  );
+};
+
 UserServices.swapLenses = async () => {
   const requestOptions = {
     method: 'GET',
@@ -51,6 +69,5 @@ UserServices.swapLiquid = async () => {
     handleResponse
   );
 };
-
 
 export default UserServices;

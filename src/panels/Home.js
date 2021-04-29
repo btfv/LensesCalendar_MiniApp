@@ -41,7 +41,7 @@ const Home = ({
     {fetchedUser && (
       <Group
         header={
-          <Header mode="secondary">User Data Fetched with VK Bridge</Header>
+          <Header mode='secondary'>User Data Fetched with VK Bridge</Header>
         }
       >
         <Cell
@@ -62,25 +62,25 @@ const Home = ({
     )}
 
     {lensesInfo && (
-      <Group header={<Header mode="secondary">Lenses Info</Header>}>
+      <Group header={<Header mode='secondary'>Lenses Info</Header>}>
         <Div>
-          <Text weight="regular" style={{ marginBottom: 16 }}>
+          <Text weight='regular' style={{ marginBottom: 16 }}>
             {lensesInfo.manufacturer}
           </Text>
-          <Text weight="regular" style={{ marginBottom: 16 }}>
+          <Text weight='regular' style={{ marginBottom: 16 }}>
             {lensesInfo.name}
           </Text>
-          <Text weight="regular" style={{ marginBottom: 16 }}>
+          <Text weight='regular' style={{ marginBottom: 16 }}>
             L {lensesInfo.dioptreLeft + ' ' + lensesInfo.curvatureLeft}
           </Text>
-          <Text weight="regular" style={{ marginBottom: 16 }}>
+          <Text weight='regular' style={{ marginBottom: 16 }}>
             R {lensesInfo.dioptreRight + ' ' + lensesInfo.curvatureRight}
           </Text>
-          <Text weight="regular" style={{ marginBottom: 16 }}>
+          <Text weight='regular' style={{ marginBottom: 16 }}>
             Swap Dates:
           </Text>
           {lensesInfo.swapDates.map((date, index) => (
-            <Text weight="regular" style={{ marginBottom: 16 }}>
+            <Text weight='regular' style={{ marginBottom: 16 }}>
               {(index + 1).toString() + '. ' + formatDate(date)}
             </Text>
           ))}
@@ -89,33 +89,33 @@ const Home = ({
     )}
 
     {liquidInfo && (
-      <Group header={<Header mode="secondary">Liquid Info</Header>}>
+      <Group header={<Header mode='secondary'>Liquid Info</Header>}>
         <Div>
-          <Text weight="regular" style={{ marginBottom: 16 }}>
+          <Text weight='regular' style={{ marginBottom: 16 }}>
             {liquidInfo.manufacturer}
           </Text>
-          <Text weight="regular" style={{ marginBottom: 16 }}>
+          <Text weight='regular' style={{ marginBottom: 16 }}>
             {liquidInfo.name}
           </Text>
-          <Text weight="regular" style={{ marginBottom: 16 }}>
+          <Text weight='regular' style={{ marginBottom: 16 }}>
             Swap Dates:
           </Text>
           {liquidInfo.swapDates.map((date, index) => (
-            <Text weight="regular" style={{ marginBottom: 16 }}>
+            <Text weight='regular' style={{ marginBottom: 16 }}>
               {(index + 1).toString() + '. ' + formatDate(date)}
             </Text>
           ))}
         </Div>
         <Div>
           <Button
-            size="l"
+            size='l'
             style={{ float: 'left' }}
             onClick={() => swapLenses()}
           >
             Swap Lenses
           </Button>
           <Button
-            size="l"
+            size='l'
             style={{ float: 'right' }}
             onClick={() => swapLiquid()}
           >
@@ -124,6 +124,17 @@ const Home = ({
         </Div>
       </Group>
     )}
+    <Div>
+      <Button
+        stretched
+        size='l'
+        mode='secondary'
+        onClick={go}
+        data-to='addData'
+      >
+        Add data
+      </Button>
+    </Div>
   </Panel>
 );
 
