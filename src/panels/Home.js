@@ -27,6 +27,12 @@ function formatDate(string) {
   return new Date(string).toLocaleDateString([], options);
 }
 
+function addDays(date, days) {
+  var result = new Date(date);
+  result.setDate(result.getDate() + days);
+  return result;
+}
+
 const Home = ({
   id,
   go,
@@ -62,13 +68,13 @@ const Home = ({
     )}
 
     {lensesInfo && (
-      <Group header={<Header mode='secondary'>Lenses Info</Header>}>
+      <Group header={<Header mode='secondary'>Информация о линзах</Header>}>
         <Div>
           <Text weight='regular' style={{ marginBottom: 16 }}>
-            {lensesInfo.manufacturer}
+            {'Производитель: ' + lensesInfo.manufacturer}
           </Text>
           <Text weight='regular' style={{ marginBottom: 16 }}>
-            {lensesInfo.name}
+            {'Название линз: ' + lensesInfo.name}
           </Text>
           <Text weight='regular' style={{ marginBottom: 16 }}>
             L {lensesInfo.dioptreLeft + ' ' + lensesInfo.curvatureLeft}
@@ -77,28 +83,47 @@ const Home = ({
             R {lensesInfo.dioptreRight + ' ' + lensesInfo.curvatureRight}
           </Text>
           <Text weight='regular' style={{ marginBottom: 16 }}>
-            Swap Dates:
+            {'Периодичность замены: ' + lensesInfo.periodicity + ' дней'}
+          </Text>
+          <Text weight='regular' style={{ marginBottom: 16 }}>
+            Даты замены:
           </Text>
           {lensesInfo.swapDates.map((date, index) => (
             <Text weight='regular' style={{ marginBottom: 16 }}>
               {(index + 1).toString() + '. ' + formatDate(date)}
             </Text>
           ))}
+          <Text weight='regular' style={{ marginBottom: 16 }}>
+            Следующая ожидаемая дата замены:
+          </Text>
+          <Text weight='regular' style={{ marginBottom: 16 }}>
+            {formatDate(
+              addDays(
+                Date(lensesInfo.swapDates[lensesInfo.swapDates.length - 1]),
+                lensesInfo.periodicity
+              )
+            )}
+          </Text>
+        </Div>
+        <Div>
+          <Button size='l' onClick={() => swapLenses()}>
+            Сменить линзы
+          </Button>
         </Div>
       </Group>
     )}
 
     {liquidInfo && (
-      <Group header={<Header mode='secondary'>Liquid Info</Header>}>
+      <Group header={<Header mode='secondary'>Информация о жидкости</Header>}>
         <Div>
           <Text weight='regular' style={{ marginBottom: 16 }}>
-            {liquidInfo.manufacturer}
+            {'Производитель: ' + liquidInfo.manufacturer}
           </Text>
           <Text weight='regular' style={{ marginBottom: 16 }}>
-            {liquidInfo.name}
+            {'Название жидкости: ' + liquidInfo.name}
           </Text>
           <Text weight='regular' style={{ marginBottom: 16 }}>
-            Swap Dates:
+            Даты замены:
           </Text>
           {liquidInfo.swapDates.map((date, index) => (
             <Text weight='regular' style={{ marginBottom: 16 }}>
@@ -107,19 +132,8 @@ const Home = ({
           ))}
         </Div>
         <Div>
-          <Button
-            size='l'
-            style={{ float: 'left' }}
-            onClick={() => swapLenses()}
-          >
-            Swap Lenses
-          </Button>
-          <Button
-            size='l'
-            style={{ float: 'right' }}
-            onClick={() => swapLiquid()}
-          >
-            Swap Liquid
+          <Button size='l' onClick={() => swapLiquid()}>
+            Сменить жидкость
           </Button>
         </Div>
       </Group>
@@ -132,7 +146,7 @@ const Home = ({
         onClick={go}
         data-to='addData'
       >
-        Add data
+        Изменить информацию
       </Button>
     </Div>
   </Panel>

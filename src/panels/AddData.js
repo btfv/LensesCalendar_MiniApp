@@ -19,43 +19,14 @@ import {
 import UserActions from '../redux/actions/user.actions';
 import { connect } from 'react-redux';
 
-const AddData = ({
-  id,
-  go,
-  fetchedUser,
-  submitInfo,
-  lensesInfo,
-  liquidInfo,
-}) => {
+const AddData = ({ id, go, submitInfo, lensesInfo, liquidInfo }) => {
   return (
     <Panel id={id}>
-      <PanelHeader>Add data</PanelHeader>
-      {fetchedUser && (
-        <Group
-          header={
-            <Header mode='secondary'>User Data Fetched with VK Bridge</Header>
-          }
-        >
-          <Cell
-            before={
-              fetchedUser.photo_200 ? (
-                <Avatar src={fetchedUser.photo_200} />
-              ) : null
-            }
-            description={
-              fetchedUser.city && fetchedUser.city.title
-                ? fetchedUser.city.title
-                : ''
-            }
-          >
-            {`${fetchedUser.first_name} ${fetchedUser.last_name}`}
-          </Cell>
-        </Group>
-      )}
+      <PanelHeader>Календарь линз</PanelHeader>
       <Group
         header={
           <Header mode='secondary'>
-            Add info about your lenses and liquid
+            Введите информацию о ваших линзах и жидкости
           </Header>
         }
       >
@@ -90,50 +61,133 @@ const AddData = ({
             };
             submitInfo(dataToSubmit).then(() => {
               const e = {};
-              e.currentTarget ={};
+              e.currentTarget = {};
               e.currentTarget.dataset = {};
               e.currentTarget.dataset.to = 'home';
               go(e);
             });
           }}
         >
-          <FormItem top='Lenses name'>
-            <Input type='text' name='lensesName' />
+          <FormItem top='Название линз'>
+            <Input
+              type='text'
+              name='lensesName'
+              defaultValue={
+                lensesInfo && lensesInfo.name ? lensesInfo.name : ''
+              }
+            />
           </FormItem>
-          <FormItem top='Manufacturer'>
-            <Input type='text' name='lensesManufacturer' />
+          <FormItem top='Производитель линз'>
+            <Input
+              type='text'
+              name='lensesManufacturer'
+              defaultValue={
+                lensesInfo && lensesInfo.manufacturer
+                  ? lensesInfo.manufacturer
+                  : ''
+              }
+            />
           </FormItem>
-          <FormItem top='Periodicity (days)'>
-            <Input type='text' name='lensesPeriodicity' />
+          <FormItem top='Частота смены (в днях)'>
+            <Input
+              type='text'
+              name='lensesPeriodicity'
+              defaultValue={
+                lensesInfo && lensesInfo.periodicity
+                  ? lensesInfo.periodicity
+                  : ''
+              }
+            />
           </FormItem>
           <FormLayoutGroup mode='horizontal'>
-            <FormItem top='Dioptre Left'>
-              <Input type='number' name='dioptreLeft' step='0.01' />
+            <FormItem top='Диоптрии левой линзы'>
+              <Input
+                type='number'
+                name='dioptreLeft'
+                step='0.01'
+                defaultValue={
+                  lensesInfo && lensesInfo.dioptreLeft
+                    ? lensesInfo.dioptreLeft
+                    : ''
+                }
+              />
             </FormItem>
-            <FormItem top='Curvature Left'>
-              <Input type='number' name='curvatureLeft' step='0.01' />
+            <FormItem top='Кривизна левой линзы'>
+              <Input
+                type='number'
+                name='curvatureLeft'
+                step='0.01'
+                defaultValue={
+                  lensesInfo && lensesInfo.curvatureLeft
+                    ? lensesInfo.curvatureLeft
+                    : ''
+                }
+              />
             </FormItem>
           </FormLayoutGroup>
           <FormLayoutGroup mode='horizontal'>
-            <FormItem top='Dioptre Right'>
-              <Input type='number' name='dioptreRight' step='0.01' />
+            <FormItem top='Диоптрии правой линзы'>
+              <Input
+                type='number'
+                name='dioptreRight'
+                step='0.01'
+                defaultValue={
+                  lensesInfo && lensesInfo.dioptreRight
+                    ? lensesInfo.dioptreRight
+                    : ''
+                }
+              />
             </FormItem>
-            <FormItem top='Curvature Right'>
-              <Input type='number' name='curvatureRight' step='0.01' />
+            <FormItem top='Кривизна правой линзы'>
+              <Input
+                type='number'
+                name='curvatureRight'
+                step='0.01'
+                defaultValue={
+                  lensesInfo && lensesInfo.curvatureRight
+                    ? lensesInfo.curvatureRight
+                    : ''
+                }
+              />
             </FormItem>
           </FormLayoutGroup>
-          <FormItem top='Liquid name'>
-            <Input type='text' name='liquidName' />
+          <FormItem top='Название жидкости'>
+            <Input
+              type='text'
+              name='liquidName'
+              defaultValue={
+                liquidInfo && liquidInfo.name ? liquidInfo.name : ''
+              }
+            />
           </FormItem>
-          <FormItem top='Manufacturer'>
-            <Input type='text' name='liquidManufacturer' />
+          <FormItem top='Производитель жидкости'>
+            <Input
+              type='text'
+              name='liquidManufacturer'
+              defaultValue={
+                liquidInfo && liquidInfo.manufacturer
+                  ? liquidInfo.manufacturer
+                  : ''
+              }
+            />
           </FormItem>
           <FormItem>
             <Button size='l' stretched type='submit'>
-              Add Data
+              Сохранить
             </Button>
           </FormItem>
         </FormLayout>
+        <Div>
+          <Button
+            stretched
+            size='l'
+            mode='secondary'
+            onClick={go}
+            data-to='home'
+          >
+            Назад
+          </Button>
+        </Div>
       </Group>
     </Panel>
   );
@@ -142,14 +196,6 @@ const AddData = ({
 AddData.propTypes = {
   id: PropTypes.string.isRequired,
   go: PropTypes.func.isRequired,
-  fetchedUser: PropTypes.shape({
-    photo_200: PropTypes.string,
-    first_name: PropTypes.string,
-    last_name: PropTypes.string,
-    city: PropTypes.shape({
-      title: PropTypes.string,
-    }),
-  }),
   lensesInfo: PropTypes.shape({
     lensesManufacturer: PropTypes.string,
     name: PropTypes.string,

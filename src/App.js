@@ -18,7 +18,7 @@ import AddData from './panels/AddData';
 const App = (props) => {
   const { spin, startSpinner, stopSpinner, data, getData } = props;
 
-  const [activePanel, setActivePanel] = useState('addData');
+  const [activePanel, setActivePanel] = useState('home');
   const [fetchedUser, setUser] = useState(null);
 
   const search = window.location.search;
@@ -51,8 +51,8 @@ const App = (props) => {
     UserServices.auth(paramsToObject(params))
       .then(getData)
       .then((receivedData) => {
-        if (receivedData.lenses || receivedData.liquid) {
-          setActivePanel('home');
+        if (!receivedData.lenses && !receivedData.liquid) {
+          setActivePanel('addData');
         }
       });
   }, []);
@@ -72,7 +72,6 @@ const App = (props) => {
           />
           <AddData
             id='addData'
-            fetchedUser={fetchedUser}
             lensesInfo={data.lenses}
             liquidInfo={data.liquid}
             go={go}
