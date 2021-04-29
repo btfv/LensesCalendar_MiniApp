@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -6,10 +6,7 @@ import {
   PanelHeader,
   Header,
   Group,
-  Cell,
   Div,
-  Avatar,
-  Text,
   Button,
   FormLayout,
   FormItem,
@@ -19,7 +16,7 @@ import {
 import UserActions from '../redux/actions/user.actions';
 import { connect } from 'react-redux';
 
-const AddData = ({ id, go, submitInfo, lensesInfo, liquidInfo }) => {
+const AddData = ({ id, go, submitInfo, lensesInfo, liquidInfo, successRedirect }) => {
   return (
     <Panel id={id}>
       <PanelHeader>Календарь линз</PanelHeader>
@@ -59,13 +56,7 @@ const AddData = ({ id, go, submitInfo, lensesInfo, liquidInfo }) => {
                 manufacturer: liquidManufacturer.value,
               },
             };
-            submitInfo(dataToSubmit).then(() => {
-              const e = {};
-              e.currentTarget = {};
-              e.currentTarget.dataset = {};
-              e.currentTarget.dataset.to = 'home';
-              go(e);
-            });
+            submitInfo(dataToSubmit).then(successRedirect);
           }}
         >
           <FormItem top='Название линз'>
@@ -177,17 +168,21 @@ const AddData = ({ id, go, submitInfo, lensesInfo, liquidInfo }) => {
             </Button>
           </FormItem>
         </FormLayout>
-        <Div>
-          <Button
-            stretched
-            size='l'
-            mode='secondary'
-            onClick={go}
-            data-to='home'
-          >
-            Назад
-          </Button>
-        </Div>
+        {liquidInfo || lensesInfo ? (
+          <Div>
+            <Button
+              stretched
+              size='l'
+              mode='secondary'
+              onClick={go}
+              data-to='home'
+            >
+              Назад
+            </Button>
+          </Div>
+        ) : (
+          ''
+        )}
       </Group>
     </Panel>
   );
@@ -196,6 +191,7 @@ const AddData = ({ id, go, submitInfo, lensesInfo, liquidInfo }) => {
 AddData.propTypes = {
   id: PropTypes.string.isRequired,
   go: PropTypes.func.isRequired,
+  successRedirect: PropTypes.func.isRequired,
   lensesInfo: PropTypes.shape({
     lensesManufacturer: PropTypes.string,
     name: PropTypes.string,

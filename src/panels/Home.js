@@ -83,27 +83,35 @@ const Home = ({
             R {lensesInfo.dioptreRight + ' ' + lensesInfo.curvatureRight}
           </Text>
           <Text weight='regular' style={{ marginBottom: 16 }}>
-            {'Периодичность замены: ' + lensesInfo.periodicity + ' дней'}
+            {'Периодичность замены: ' + lensesInfo.periodicity + ''}
           </Text>
-          <Text weight='regular' style={{ marginBottom: 16 }}>
-            Даты замены:
-          </Text>
-          {lensesInfo.swapDates.map((date, index) => (
+          {lensesInfo.swapDates && (
             <Text weight='regular' style={{ marginBottom: 16 }}>
-              {(index + 1).toString() + '. ' + formatDate(date)}
+              Даты замены:
             </Text>
-          ))}
-          <Text weight='regular' style={{ marginBottom: 16 }}>
-            Следующая ожидаемая дата замены:
-          </Text>
-          <Text weight='regular' style={{ marginBottom: 16 }}>
-            {formatDate(
-              addDays(
-                Date(lensesInfo.swapDates[lensesInfo.swapDates.length - 1]),
-                lensesInfo.periodicity
-              )
-            )}
-          </Text>
+          )}
+          {lensesInfo.swapDates
+            ? lensesInfo.swapDates.map((date, index) => (
+                <Text weight='regular' style={{ marginBottom: 16 }}>
+                  {(index + 1).toString() + '. ' + formatDate(date)}
+                </Text>
+              ))
+            : ''}
+          {lensesInfo.swapDates && (
+            <Text weight='regular' style={{ marginBottom: 16 }}>
+              Следующая ожидаемая дата замены:
+            </Text>
+          )}
+          {lensesInfo.swapDates && (
+            <Text weight='regular' style={{ marginBottom: 16 }}>
+              {formatDate(
+                addDays(
+                  Date(lensesInfo.swapDates[lensesInfo.swapDates.length - 1]),
+                  lensesInfo.periodicity
+                )
+              )}
+            </Text>
+          )}
         </Div>
         <Div>
           <Button size='l' onClick={() => swapLenses()}>
@@ -122,14 +130,18 @@ const Home = ({
           <Text weight='regular' style={{ marginBottom: 16 }}>
             {'Название жидкости: ' + liquidInfo.name}
           </Text>
-          <Text weight='regular' style={{ marginBottom: 16 }}>
-            Даты замены:
-          </Text>
-          {liquidInfo.swapDates.map((date, index) => (
+          {liquidInfo.swapDates && (
             <Text weight='regular' style={{ marginBottom: 16 }}>
-              {(index + 1).toString() + '. ' + formatDate(date)}
+              Даты замены:
             </Text>
-          ))}
+          )}
+          {liquidInfo.swapDates
+            ? liquidInfo.swapDates.map((date, index) => (
+                <Text weight='regular' style={{ marginBottom: 16 }}>
+                  {(index + 1).toString() + '. ' + formatDate(date)}
+                </Text>
+              ))
+            : ''}
         </Div>
         <Div>
           <Button size='l' onClick={() => swapLiquid()}>

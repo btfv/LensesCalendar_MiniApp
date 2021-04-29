@@ -75,6 +75,7 @@ const App = (props) => {
             lensesInfo={data.lenses}
             liquidInfo={data.liquid}
             go={go}
+            successRedirect={() => setActivePanel('home')}
           />
         </View>
       </AppRoot>
