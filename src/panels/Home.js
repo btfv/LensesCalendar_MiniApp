@@ -11,26 +11,26 @@ import {
   Avatar,
   Text,
   Button,
+  Caption,
+  Progress,
 } from '@vkontakte/vkui';
 import UserActions from '../redux/actions/user.actions';
 import { connect } from 'react-redux';
-
-function formatDate(string) {
-  var options = {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-    second: 'numeric',
-  };
-  return new Date(string).toLocaleDateString([], options);
-}
+import Scroll from './Scroll';
+import lensesPicture from '../img/507041.png';
 
 function addDays(date, days) {
   var result = new Date(date);
   result.setDate(result.getDate() + days);
   return result;
+}
+function formatDate(string) {
+  var options = {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+  };
+  return new Date(string).toLocaleDateString([], options);
 }
 
 const Home = ({
@@ -43,13 +43,9 @@ const Home = ({
   swapLiquid,
 }) => (
   <Panel id={id}>
-    <PanelHeader>Lenses Calendar App</PanelHeader>
+    <PanelHeader>Календарь линз</PanelHeader>
     {fetchedUser && (
-      <Group
-        header={
-          <Header mode='secondary'>Ваш профиль</Header>
-        }
-      >
+      <Group header={<Header mode='secondary'>Ваш профиль</Header>}>
         <Cell
           before={
             fetchedUser.photo_200 ? (
@@ -69,59 +65,191 @@ const Home = ({
 
     {lensesInfo && (
       <Group header={<Header mode='secondary'>Информация о линзах</Header>}>
+        <Div
+          style={{
+            width: 'fit-content',
+            marginBottom: 0,
+            fontSize: 24,
+            marginRight: 'auto',
+            marginLeft: 'auto',
+          }}
+        >
+          <img src={lensesPicture} height='100px' />
+        </Div>
+        <Div
+          style={{
+            width: 'fit-content',
+            fontSize: 24,
+            marginRight: 'auto',
+            marginLeft: 'auto',
+          }}
+        >
+          <Button
+            style={{
+              width: 'fit-content',
+              fontSize: 24,
+              marginRight: 'auto',
+              marginLeft: 'auto',
+              display: 'block',
+              marginBottom: 16,
+            }}
+            mode='secondary'
+            size='l'
+          >
+            Выбрать
+          </Button>
+          <Button
+            style={{
+              width: 'fit-content',
+              fontSize: 24,
+              marginRight: 'auto',
+              marginLeft: 'auto',
+              display: 'block',
+            }}
+            size='l'
+            onClick={() => swapLenses()}
+          >
+            Сменить линзы
+          </Button>
+        </Div>
         <Div>
-          <Text weight='regular' style={{ marginBottom: 16 }}>
-            {'Производитель: ' + lensesInfo.manufacturer}
-          </Text>
-          <Text weight='regular' style={{ marginBottom: 16 }}>
-            {'Название линз: ' + lensesInfo.name}
-          </Text>
-          <Text weight='regular' style={{ marginBottom: 16 }}>
-            L {lensesInfo.dioptreLeft + ' ' + lensesInfo.curvatureLeft}
-          </Text>
-          <Text weight='regular' style={{ marginBottom: 16 }}>
-            R {lensesInfo.dioptreRight + ' ' + lensesInfo.curvatureRight}
-          </Text>
-          <Text weight='regular' style={{ marginBottom: 16 }}>
-            {'Периодичность замены: ' + lensesInfo.periodicity + ''}
-          </Text>
           {lensesInfo.swapDates && (
-            <Text weight='regular' style={{ marginBottom: 16 }}>
-              Даты замены:
-            </Text>
+            <Progress
+              value={
+                (100 * (Date.now() - Date.parse(lensesInfo.swapDates[0]))) /
+                (lensesInfo.periodicity * 24 * 60 * 60 * 1000)
+              }
+              style={{
+                marginBottom: 16,
+                maxWidth: 500,
+                marginRight: 'auto',
+                marginLeft: 'auto',
+              }}
+            />
           )}
-          {lensesInfo.swapDates
-            ? lensesInfo.swapDates.map((date, index) => (
-                <Text weight='regular' style={{ marginBottom: 16 }}>
-                  {(index + 1).toString() + '. ' + formatDate(date)}
-                </Text>
-              ))
-            : ''}
-          {lensesInfo.swapDates && (
-            <Text weight='regular' style={{ marginBottom: 16 }}>
-              Следующая ожидаемая дата замены:
-            </Text>
+          <Text
+            weight='regular'
+            style={{
+              width: 'fit-content',
+              marginBottom: 0,
+              fontSize: 24,
+              marginRight: 'auto',
+              marginLeft: 'auto',
+            }}
+          >
+            {lensesInfo.name}
+          </Text>
+          <Caption
+            weight='regular'
+            style={{
+              'text-align': 'center',
+              fontSize: '16px',
+              color: '#909499',
+            }}
+          >
+            {'L ' +
+              lensesInfo.dioptreLeft +
+              ' ' +
+              lensesInfo.curvatureLeft +
+              ', R ' +
+              lensesInfo.dioptreRight +
+              ' ' +
+              lensesInfo.curvatureRight}
+          </Caption>
+          <Caption
+            weight='regular'
+            style={{
+              'text-align': 'center',
+              marginBottom: 16,
+              fontSize: '14px',
+              color: '#909499',
+            }}
+          >
+            Линзы
+          </Caption>
+          <Text
+            weight='regular'
+            style={{
+              width: 'fit-content',
+              marginBottom: 0,
+              fontSize: 24,
+              marginRight: 'auto',
+              marginLeft: 'auto',
+            }}
+          >
+            {lensesInfo.periodicity + ' дней'}
+          </Text>
+          <Caption
+            weight='regular'
+            style={{
+              'text-align': 'center',
+              marginBottom: 16,
+              fontSize: '14px',
+              color: '#909499',
+            }}
+          >
+            Периодичность замены
+          </Caption>
+          {lensesInfo.swapDates ? (
+            <div
+              style={{
+                marginLeft: 'auto',
+                marginRight: 'auto',
+                width: 'fit-content',
+              }}
+            >
+              <Scroll dates={lensesInfo.swapDates} />
+            </div>
+          ) : (
+            ''
           )}
           {lensesInfo.swapDates && (
-            <Text weight='regular' style={{ marginBottom: 16 }}>
+            <Caption
+              weight='regular'
+              style={{
+                'text-align': 'center',
+                marginBottom: 16,
+                fontSize: '14px',
+                color: '#909499',
+              }}
+            >
+              Последние смены
+            </Caption>
+          )}
+          {lensesInfo.swapDates && (
+            <Text
+              weight='regular'
+              style={{
+                width: 'fit-content',
+                marginBottom: 0,
+                fontSize: 24,
+                marginRight: 'auto',
+                marginLeft: 'auto',
+              }}
+            >
               {formatDate(
-                addDays(
-                  Date(lensesInfo.swapDates[lensesInfo.swapDates.length - 1]),
-                  lensesInfo.periodicity
-                )
+                addDays(Date(lensesInfo.swapDates[0]), lensesInfo.periodicity)
               )}
             </Text>
           )}
-        </Div>
-        <Div>
-          <Button size='l' onClick={() => swapLenses()}>
-            Сменить линзы
-          </Button>
+          {lensesInfo.swapDates && (
+            <Caption
+              weight='regular'
+              style={{
+                'text-align': 'center',
+                marginBottom: 16,
+                fontSize: '14px',
+                color: '#909499',
+              }}
+            >
+              Следующая смена линз
+            </Caption>
+          )}
         </Div>
       </Group>
     )}
 
-    {liquidInfo && (
+    {/*liquidInfo && (
       <Group header={<Header mode='secondary'>Информация о жидкости</Header>}>
         <Div>
           <Text weight='regular' style={{ marginBottom: 16 }}>
@@ -130,18 +258,29 @@ const Home = ({
           <Text weight='regular' style={{ marginBottom: 16 }}>
             {'Название жидкости: ' + liquidInfo.name}
           </Text>
-          {liquidInfo.swapDates && (
-            <Text weight='regular' style={{ marginBottom: 16 }}>
-              Даты замены:
-            </Text>
-          )}
-          {liquidInfo.swapDates
-            ? liquidInfo.swapDates.map((date, index) => (
-                <Text weight='regular' style={{ marginBottom: 16 }}>
-                  {(index + 1).toString() + '. ' + formatDate(date)}
-                </Text>
-              ))
-            : ''}
+          <div>
+            {liquidInfo.swapDates ? (
+              <Scroll
+                style={{ 'margin-left': 'auto', 'margin-right': 'auto' }}
+                dates={liquidInfo.swapDates}
+              />
+            ) : (
+              ''
+            )}
+            {liquidInfo.swapDates && (
+              <Caption
+                weight='regular'
+                style={{
+                  'text-align': 'center',
+                  marginBottom: 16,
+                  fontSize: '14px',
+                  color: '#909499',
+                }}
+              >
+                Последние смены
+              </Caption>
+            )}
+          </div>
         </Div>
         <Div>
           <Button size='l' onClick={() => swapLiquid()}>
@@ -149,7 +288,7 @@ const Home = ({
           </Button>
         </Div>
       </Group>
-    )}
+              )*/}
     <Div>
       <Button
         stretched
