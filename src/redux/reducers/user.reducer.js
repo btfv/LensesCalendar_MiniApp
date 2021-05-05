@@ -16,7 +16,7 @@ export default function UserReducer(state = initialState, action) {
           ...state.data,
           lenses: {
             ...state.data.lenses,
-            swapDates: [...state.data.lenses.swapDates, action.newDate],
+            swapDates: [action.newDate, ...state.data.lenses.swapDates],
           },
         },
       };
@@ -27,7 +27,7 @@ export default function UserReducer(state = initialState, action) {
           ...state.data,
           liquid: {
             ...state.data.liquid,
-            swapDates: [...state.data.liquid.swapDates, action.newDate],
+            swapDates: [action.newDate, ...state.data.liquid.swapDates],
           },
         },
       };
