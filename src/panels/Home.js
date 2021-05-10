@@ -44,7 +44,7 @@ const Home = ({
 }) => (
   <Panel id={id}>
     <PanelHeader>Календарь линз</PanelHeader>
-    {fetchedUser && (
+    {/*fetchedUser && (
       <Group header={<Header mode='secondary'>Ваш профиль</Header>}>
         <Cell
           before={
@@ -61,10 +61,10 @@ const Home = ({
           {`${fetchedUser.first_name} ${fetchedUser.last_name}`}
         </Cell>
       </Group>
-    )}
+        )*/}
 
     {lensesInfo && (
-      <Group header={<Header mode='secondary'>Информация о линзах</Header>}>
+      <Group>
         <Div
           style={{
             width: 'fit-content',
@@ -86,7 +86,7 @@ const Home = ({
         >
           <Button
             style={{
-              width: 'fit-content',
+              width: 160,
               fontSize: 24,
               marginRight: 'auto',
               marginLeft: 'auto',
@@ -100,7 +100,7 @@ const Home = ({
           </Button>
           <Button
             style={{
-              width: 'fit-content',
+              width: 160,
               fontSize: 24,
               marginRight: 'auto',
               marginLeft: 'auto',
@@ -113,20 +113,6 @@ const Home = ({
           </Button>
         </Div>
         <Div>
-          {lensesInfo.swapDates && (
-            <Progress
-              value={
-                (100 * (Date.now() - Date.parse(lensesInfo.swapDates[0]))) /
-                (lensesInfo.periodicity * 24 * 60 * 60 * 1000)
-              }
-              style={{
-                marginBottom: 16,
-                maxWidth: 500,
-                marginRight: 'auto',
-                marginLeft: 'auto',
-              }}
-            />
-          )}
           <Text
             weight='regular'
             style={{
@@ -143,7 +129,7 @@ const Home = ({
             weight='regular'
             style={{
               'text-align': 'center',
-              fontSize: '16px',
+              fontSize: '14px',
               color: '#909499',
             }}
           >
@@ -167,6 +153,22 @@ const Home = ({
           >
             Линзы
           </Caption>
+          {lensesInfo.swapDates && (
+            <Progress
+              value={
+                (100 * (Date.now() - Date.parse(lensesInfo.swapDates[0]))) /
+                (lensesInfo.periodicity * 24 * 60 * 60 * 1000)
+              }
+              style={{
+                height: 4,
+                borderRadius: 2,
+                marginBottom: 16,
+                maxWidth: 200,
+                marginRight: 'auto',
+                marginLeft: 'auto',
+              }}
+            />
+          )}
           <Text
             weight='regular'
             style={{

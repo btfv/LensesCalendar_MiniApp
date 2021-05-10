@@ -142,7 +142,7 @@ const AddData = ({ id, go, submitInfo, lensesInfo, liquidInfo, successRedirect }
               />
             </FormItem>
           </FormLayoutGroup>
-          <FormItem top='Название жидкости'>
+          {/*<FormItem top='Название жидкости'>
             <Input
               type='text'
               name='liquidName'
@@ -161,7 +161,7 @@ const AddData = ({ id, go, submitInfo, lensesInfo, liquidInfo, successRedirect }
                   : ''
               }
             />
-          </FormItem>
+          </FormItem>*/}
           <FormItem>
             <Button size='l' stretched type='submit'>
               Сохранить
