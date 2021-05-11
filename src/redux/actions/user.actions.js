@@ -4,6 +4,20 @@ import AppActions from './app.actions';
 
 const UserActions = {};
 
+UserActions.auth = (params) => (dispatch) =>
+  new Promise((resolve, reject) => {
+    dispatch(AppActions.startSpinner());
+    UserServices.auth(params)
+      .then(() => {
+        dispatch(AppActions.stopSpinner());
+        resolve();
+      })
+      .catch(() => {
+        dispatch(AppActions.stopSpinner());
+        reject();
+      });
+  });
+
 UserActions.getData = () => (dispatch) =>
   new Promise((resolve, reject) => {
     dispatch(AppActions.startSpinner());

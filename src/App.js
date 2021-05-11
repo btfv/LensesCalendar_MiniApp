@@ -11,12 +11,11 @@ import { connect } from 'react-redux';
 
 import Home from './panels/Home';
 import AppActions from './redux/actions/app.actions';
-import UserActions from './redux/actions/user.actions';
-import UserServices from './redux/services/user.service';
 import AddData from './panels/AddData';
+import UserActions from './redux/actions/user.actions';
 
 const App = (props) => {
-  const { spin, startSpinner, stopSpinner, data, getData } = props;
+  const { spin, startSpinner, stopSpinner, data, getData, auth } = props;
 
   const [activePanel, setActivePanel] = useState('home');
   const [fetchedUser, setUser] = useState(null);
@@ -48,7 +47,7 @@ const App = (props) => {
       stopSpinner();
     }
     if (process.env.NODE_ENV === 'production') fetchData();
-    UserServices.auth(paramsToObject(params))
+    auth(paramsToObject(params))
       .then(getData)
       .then((receivedData) => {
         if (!receivedData.lenses && !receivedData.liquid) {
@@ -94,6 +93,7 @@ const mapDispatchToProps = {
   startSpinner: AppActions.startSpinner,
   getData: UserActions.getData,
   stopSpinner: AppActions.stopSpinner,
+  auth: UserActions.auth,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
