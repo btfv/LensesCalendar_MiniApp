@@ -19,7 +19,7 @@ import { connect } from 'react-redux';
 const AddData = ({ id, go, submitInfo, lensesInfo, liquidInfo, successRedirect }) => {
   return (
     <Panel id={id}>
-      <PanelHeader>Календарь линз</PanelHeader>
+      <PanelHeader>Изменение данных</PanelHeader>
       <Group
         header={
           <Header mode='secondary'>
