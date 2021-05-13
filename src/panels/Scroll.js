@@ -18,8 +18,9 @@ const Scroll = ({ dates }) => {
     <ScrollContainer
       style={{
         height: '98px',
-        overflow: 'hidden',
         cursor: 'grab',
+        overflowY: 'scroll',
+        scrollbarWidth: 0,
         '-webkit-mask-image':
           'linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.25))',
         '-webkit-mask-mode': 'alpha',
