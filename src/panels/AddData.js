@@ -12,11 +12,21 @@ import {
   FormItem,
   Input,
   FormLayoutGroup,
+  Select,
+  CustomSelectOption,
+  Text,
 } from '@vkontakte/vkui';
 import UserActions from '../redux/actions/user.actions';
 import { connect } from 'react-redux';
 
-const AddData = ({ id, go, submitInfo, lensesInfo, liquidInfo, successRedirect }) => {
+const AddData = ({
+  id,
+  go,
+  submitInfo,
+  lensesInfo,
+  liquidInfo,
+  successRedirect,
+}) => {
   return (
     <Panel id={id}>
       <PanelHeader>Изменение данных</PanelHeader>
@@ -92,53 +102,69 @@ const AddData = ({ id, go, submitInfo, lensesInfo, liquidInfo, successRedirect }
           </FormItem>
           <FormLayoutGroup mode='horizontal'>
             <FormItem top='Диоптрии левой линзы'>
-              <Input
-                type='number'
+              <Select
                 name='dioptreLeft'
-                step='0.01'
-                defaultValue={
-                  lensesInfo && lensesInfo.dioptreLeft
-                    ? lensesInfo.dioptreLeft
-                    : ''
-                }
+                placeholder='Не выбрана'
+                options={(() => {
+                  var a = [];
+                  for (let i = 80; i <= 90; i = i + 2) {
+                    a.push({ value: i / 10, label: i / 10 });
+                  }
+                  return a;
+                })()}
+                renderOption={({ option, ...restProps }) => (
+                  <CustomSelectOption {...restProps} />
+                )}
               />
             </FormItem>
             <FormItem top='Кривизна левой линзы'>
-              <Input
-                type='number'
+              <Select
                 name='curvatureLeft'
-                step='0.01'
-                defaultValue={
-                  lensesInfo && lensesInfo.curvatureLeft
-                    ? lensesInfo.curvatureLeft
-                    : ''
-                }
+                placeholder='Не выбрана'
+                options={(() => {
+                  var a = [];
+                  for (let i = -15; i <= 15; i = i + 0.25) {
+                    a.push({ value: i, label: i });
+                  }
+                  return a;
+                })()}
+                renderOption={({ option, ...restProps }) => (
+                  <CustomSelectOption {...restProps} />
+                )}
               />
             </FormItem>
           </FormLayoutGroup>
           <FormLayoutGroup mode='horizontal'>
             <FormItem top='Диоптрии правой линзы'>
-              <Input
-                type='number'
+              <Select
                 name='dioptreRight'
-                step='0.01'
-                defaultValue={
-                  lensesInfo && lensesInfo.dioptreRight
-                    ? lensesInfo.dioptreRight
-                    : ''
-                }
+                placeholder='Не выбрана'
+                options={(() => {
+                  var a = [];
+                  for (let i = 80; i <= 90; i = i + 2) {
+                    a.push({ value: i / 10, label: i / 10 });
+                  }
+                  return a;
+                })()}
+                renderOption={({ option, ...restProps }) => (
+                  <CustomSelectOption {...restProps} />
+                )}
               />
             </FormItem>
             <FormItem top='Кривизна правой линзы'>
-              <Input
-                type='number'
+              <Select
                 name='curvatureRight'
-                step='0.01'
-                defaultValue={
-                  lensesInfo && lensesInfo.curvatureRight
-                    ? lensesInfo.curvatureRight
-                    : ''
-                }
+                placeholder='Не выбрана'
+                options={(() => {
+                  var a = [];
+                  for (let i = -15; i <= 15; i = i + 0.25) {
+                    a.push({ value: i, label: i });
+                  }
+                  return a;
+                })()}
+                renderOption={({ option, ...restProps }) => (
+                  <CustomSelectOption {...restProps} />
+                )}
               />
             </FormItem>
           </FormLayoutGroup>
