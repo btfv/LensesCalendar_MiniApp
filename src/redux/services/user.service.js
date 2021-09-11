@@ -30,7 +30,6 @@ UserServices.getData = async () => {
 };
 
 UserServices.addData = async (data) => {
-  console.log(data);
   const requestOptions = {
     method: 'POST',
     headers: {

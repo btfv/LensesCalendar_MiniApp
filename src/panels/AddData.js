@@ -48,8 +48,8 @@ const AddData = ({
               curvatureLeft,
               curvatureRight,
               lensesPeriodicity,
-              liquidName,
-              liquidManufacturer,
+              // liquidName,
+              // liquidManufacturer,
             } = e.target;
             const dataToSubmit = {
               lenses: {
@@ -61,10 +61,10 @@ const AddData = ({
                 curvatureRight: curvatureRight.value,
                 periodicity: lensesPeriodicity.value,
               },
-              liquid: {
-                name: liquidName.value,
-                manufacturer: liquidManufacturer.value,
-              },
+              // liquid: {
+              //   name: liquidName.value,
+              //   manufacturer: liquidManufacturer.value,
+              // },
             };
             submitInfo(dataToSubmit).then(successRedirect);
           }}
@@ -233,6 +233,7 @@ AddData.propTypes = {
     name: PropTypes.string,
     swapDates: PropTypes.arrayOf(PropTypes.string),
   }),
+  submitInfo: PropTypes.func,
 };
 
 const mapStateToProps = (state) => {
