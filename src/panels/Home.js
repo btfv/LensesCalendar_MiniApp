@@ -17,7 +17,7 @@ import {
 import UserActions from '../redux/actions/user.actions';
 import { connect } from 'react-redux';
 import Scroll from './Scroll';
-import lensesPicture from '../img/507041.png';
+import lensesPicture from '../img/logo.png';
 
 function addDays(date, days) {
   var result = new Date(date);
