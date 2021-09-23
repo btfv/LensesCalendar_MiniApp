@@ -3,17 +3,19 @@ import PropTypes from 'prop-types';
 
 import { Text } from '@vkontakte/vkui';
 import ScrollContainer from 'react-indiana-drag-scroll';
+import UserActions from '../redux/actions/user.actions';
+import { connect } from 'react-redux';
 
-function formatDate(string) {
+const formatDate = (string) => {
   var options = {
     year: 'numeric',
     month: 'numeric',
     day: 'numeric',
   };
   return new Date(string).toLocaleDateString([], options);
-}
+};
 
-const Scroll = ({ dates }) => {
+const Scroll = ({ dates, removeDate }) => {
   return (
     <ScrollContainer
       style={{
@@ -30,6 +32,9 @@ const Scroll = ({ dates }) => {
         <Text
           weight='regular'
           style={{ marginBottom: 14, 'font-size': '24px' }}
+          onClick={() => {
+            removeDate(date);
+          }}
         >
           {formatDate(date)}
         </Text>
@@ -42,4 +47,12 @@ Scroll.propTypes = {
   dates: PropTypes.arrayOf(PropTypes.string),
 };
 
-export default Scroll;
+const mapStateToProps = (state) => {
+  return {};
+};
+
+const mapDispatchToProps = {
+  removeDate: UserActions.removeDate,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Scroll);

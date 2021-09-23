@@ -33,57 +33,47 @@ function formatDate(string) {
   return new Date(string).toLocaleDateString([], options);
 }
 
-const Home = ({
-  id,
-  go,
-  fetchedUser,
-  lensesInfo,
-  liquidInfo,
-  swapLenses,
-  swapLiquid,
-}) => (
-  <Panel id={id}>
-    {/*fetchedUser && (
-      <Group header={<Header mode='secondary'>Ваш профиль</Header>}>
-        <Cell
-          before={
-            fetchedUser.photo_200 ? (
-              <Avatar src={fetchedUser.photo_200} />
-            ) : null
-          }
-          description={
-            fetchedUser.city && fetchedUser.city.title
-              ? fetchedUser.city.title
-              : ''
-          }
-        >
-          {`${fetchedUser.first_name} ${fetchedUser.last_name}`}
-        </Cell>
-      </Group>
-        )*/}
-    <Group>
-      {lensesInfo && (
-        <Div>
-          <Div
-            style={{
-              width: 'fit-content',
-              marginBottom: 0,
-              fontSize: 24,
-              marginRight: 'auto',
-              marginLeft: 'auto',
-            }}
-          >
-            <img src={lensesPicture} height='100px' />
-          </Div>
-          <Div
-            style={{
-              width: 'fit-content',
-              fontSize: 24,
-              marginRight: 'auto',
-              marginLeft: 'auto',
-            }}
-          >
-            {/*<Button
+const Home = ({ id, go, lensesInfo, liquidInfo, swapLenses, swapLiquid }) => {
+  if (!lensesInfo) return '';
+  const lensesProgressValue =
+    lensesInfo.swapDates && lensesInfo.swapDates.length
+      ? Math.min(
+          (100 * (Date.now() - Date.parse(lensesInfo.swapDates[0]))) /
+            (lensesInfo.periodicity * 24 * 60 * 60 * 1000),
+          100
+        )
+      : 0;
+  const nextChangeDate =
+    lensesInfo.swapDates && lensesInfo.swapDates.length
+      ? formatDate(
+          addDays(Date(lensesInfo.swapDates[0]), lensesInfo.periodicity)
+        )
+      : 0;
+  return (
+    <Panel id={id}>
+      <Group>
+        {lensesInfo && (
+          <Div>
+            <Div
+              style={{
+                width: 'fit-content',
+                marginBottom: 0,
+                fontSize: 24,
+                marginRight: 'auto',
+                marginLeft: 'auto',
+              }}
+            >
+              <img src={lensesPicture} height='100px' />
+            </Div>
+            <Div
+              style={{
+                width: 'fit-content',
+                fontSize: 24,
+                marginRight: 'auto',
+                marginLeft: 'auto',
+              }}
+            >
+              {/*<Button
             style={{
               width: 160,
               fontSize: 24,
@@ -97,127 +87,21 @@ const Home = ({
           >
             Выбрать
           </Button>*/}
-            <Button
-              style={{
-                width: 160,
-                fontSize: 24,
-                marginRight: 'auto',
-                marginLeft: 'auto',
-                display: 'block',
-              }}
-              size='l'
-              onClick={() => swapLenses()}
-            >
-              Сменить линзы
-            </Button>
-          </Div>
-          <Div>
-            <Text
-              weight='regular'
-              style={{
-                width: 'fit-content',
-                marginBottom: 0,
-                fontSize: 24,
-                marginRight: 'auto',
-                marginLeft: 'auto',
-              }}
-            >
-              {lensesInfo.name}
-            </Text>
-            <Caption
-              weight='regular'
-              style={{
-                'text-align': 'center',
-                fontSize: '14px',
-                color: '#909499',
-              }}
-            >
-              {'L ' +
-                lensesInfo.dioptreLeft +
-                ' ' +
-                lensesInfo.curvatureLeft +
-                ', R ' +
-                lensesInfo.dioptreRight +
-                ' ' +
-                lensesInfo.curvatureRight}
-            </Caption>
-            <Caption
-              weight='regular'
-              style={{
-                'text-align': 'center',
-                marginBottom: 16,
-                fontSize: '14px',
-                color: '#909499',
-              }}
-            >
-              Линзы
-            </Caption>
-            {lensesInfo.swapDates && (
-              <Progress
-                value={
-                  (100 * (Date.now() - Date.parse(lensesInfo.swapDates[0]))) /
-                  (lensesInfo.periodicity * 24 * 60 * 60 * 1000)
-                }
+              <Button
                 style={{
-                  height: 4,
-                  borderRadius: 2,
-                  marginBottom: 16,
-                  maxWidth: 200,
+                  width: 160,
+                  fontSize: 24,
                   marginRight: 'auto',
                   marginLeft: 'auto',
+                  display: 'block',
                 }}
-              />
-            )}
-            <Text
-              weight='regular'
-              style={{
-                width: 'fit-content',
-                marginBottom: 0,
-                fontSize: 24,
-                marginRight: 'auto',
-                marginLeft: 'auto',
-              }}
-            >
-              {lensesInfo.periodicity + ' дней'}
-            </Text>
-            <Caption
-              weight='regular'
-              style={{
-                'text-align': 'center',
-                marginBottom: 16,
-                fontSize: '14px',
-                color: '#909499',
-              }}
-            >
-              Периодичность замены
-            </Caption>
-            {lensesInfo.swapDates ? (
-              <div
-                style={{
-                  marginLeft: 'auto',
-                  marginRight: 'auto',
-                  width: 'fit-content',
-                }}
+                size='l'
+                onClick={() => swapLenses()}
               >
-                <Scroll dates={lensesInfo.swapDates} />
-              </div>
-            ) : (
-              ''
-            )}
-            {lensesInfo.swapDates && (
-              <Caption
-                weight='regular'
-                style={{
-                  'text-align': 'center',
-                  marginBottom: 16,
-                  fontSize: '14px',
-                  color: '#909499',
-                }}
-              >
-                Последние смены
-              </Caption>
-            )}
-            {lensesInfo.swapDates && (
+                Сменить линзы
+              </Button>
+            </Div>
+            <Div>
               <Text
                 weight='regular'
                 style={{
@@ -228,28 +112,146 @@ const Home = ({
                   marginLeft: 'auto',
                 }}
               >
-                {formatDate(
-                  addDays(Date(lensesInfo.swapDates[0]), lensesInfo.periodicity)
-                )}
+                {lensesInfo.name}
               </Text>
-            )}
-            {lensesInfo.swapDates && (
               <Caption
                 weight='regular'
                 style={{
+                  margin: 5,
                   'text-align': 'center',
                   fontSize: '14px',
                   color: '#909499',
                 }}
               >
-                Следующая смена линз
+                {'L ' +
+                  lensesInfo.dioptreLeft +
+                  ' ' +
+                  lensesInfo.curvatureLeft +
+                  ', R ' +
+                  lensesInfo.dioptreRight +
+                  ' ' +
+                  lensesInfo.curvatureRight}
               </Caption>
-            )}
-          </Div>
-        </Div>
-      )}
 
-      {/*liquidInfo && (
+              {lensesInfo.swapDates ? (
+                <Progress
+                  value={lensesProgressValue}
+                  style={{
+                    height: 4,
+                    borderRadius: 2,
+                    marginBottom: 16,
+                    maxWidth: 200,
+                    marginRight: 'auto',
+                    marginLeft: 'auto',
+                  }}
+                />
+              ) : (
+                ''
+              )}
+              {lensesInfo.swapDates &&
+              lensesInfo.swapDates.length &&
+              lensesProgressValue >= 100 ? (
+                <Text
+                  weight='regular'
+                  style={{
+                    width: 'fit-content',
+                    marginBottom: 0,
+                    fontSize: 24,
+                    marginRight: 'auto',
+                    marginLeft: 'auto',
+                  }}
+                >
+                  Время менять линзы!
+                </Text>
+              ) : (
+                ''
+              )}
+              <Text
+                weight='regular'
+                style={{
+                  width: 'fit-content',
+                  marginBottom: 0,
+                  fontSize: 24,
+                  marginRight: 'auto',
+                  marginLeft: 'auto',
+                }}
+              >
+                {lensesInfo.periodicity + ' дней'}
+              </Text>
+              <Caption
+                weight='regular'
+                style={{
+                  'text-align': 'center',
+                  marginBottom: 16,
+                  fontSize: '14px',
+                  color: '#909499',
+                }}
+              >
+                Периодичность замены
+              </Caption>
+              {lensesInfo.swapDates && lensesInfo.swapDates.length ? (
+                <div
+                  style={{
+                    marginLeft: 'auto',
+                    marginRight: 'auto',
+                    width: 'fit-content',
+                  }}
+                >
+                  <Scroll dates={lensesInfo.swapDates} />
+                </div>
+              ) : (
+                ''
+              )}
+              {lensesInfo.swapDates && lensesInfo.swapDates.length ? (
+                <Caption
+                  weight='regular'
+                  style={{
+                    'text-align': 'center',
+                    marginBottom: 16,
+                    fontSize: '14px',
+                    color: '#909499',
+                  }}
+                >
+                  Последние смены
+                </Caption>
+              ) : (
+                ''
+              )}
+              {nextChangeDate ? (
+                <Text
+                  weight='regular'
+                  style={{
+                    width: 'fit-content',
+                    marginBottom: 0,
+                    fontSize: 24,
+                    marginRight: 'auto',
+                    marginLeft: 'auto',
+                  }}
+                >
+                  {nextChangeDate}
+                </Text>
+              ) : (
+                ''
+              )}
+              {nextChangeDate ? (
+                <Caption
+                  weight='regular'
+                  style={{
+                    'text-align': 'center',
+                    fontSize: '14px',
+                    color: '#909499',
+                  }}
+                >
+                  Следующая смена линз
+                </Caption>
+              ) : (
+                ''
+              )}
+            </Div>
+          </Div>
+        )}
+
+        {/*liquidInfo && (
       <Group header={<Header mode='secondary'>Информация о жидкости</Header>}>
         <Div>
           <Text weight='regular' style={{ marginBottom: 16 }}>
@@ -289,32 +291,25 @@ const Home = ({
         </Div>
       </Group>
               )*/}
-      <Div>
-        <Button
-          stretched
-          size='l'
-          mode='secondary'
-          onClick={go}
-          data-to='addData'
-        >
-          Изменить информацию
-        </Button>
-      </Div>
-    </Group>
-  </Panel>
-);
+        <Div>
+          <Button
+            stretched
+            size='l'
+            mode='secondary'
+            onClick={go}
+            data-to='addData'
+          >
+            Изменить информацию
+          </Button>
+        </Div>
+      </Group>
+    </Panel>
+  );
+};
 
 Home.propTypes = {
   id: PropTypes.string.isRequired,
   go: PropTypes.func.isRequired,
-  fetchedUser: PropTypes.shape({
-    photo_200: PropTypes.string,
-    first_name: PropTypes.string,
-    last_name: PropTypes.string,
-    city: PropTypes.shape({
-      title: PropTypes.string,
-    }),
-  }),
   lensesInfo: PropTypes.shape({
     manufacturer: PropTypes.string,
     name: PropTypes.string,

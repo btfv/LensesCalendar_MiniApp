@@ -64,4 +64,19 @@ UserServices.swapLiquid = async () => {
   return fetch(API_URL + reqUrl, requestOptions).then(handleResponse);
 };
 
+UserServices.removeDate = async (date) => {
+  const requestOptions = {
+    method: 'POST',
+    withCredentials: true,
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+    body: JSON.stringify({ date }),
+  };
+  let reqUrl = '/removeDate';
+  return fetch(API_URL + reqUrl, requestOptions).then(handleResponse);
+};
+
 export default UserServices;

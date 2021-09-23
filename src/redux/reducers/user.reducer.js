@@ -46,6 +46,19 @@ export default function UserReducer(state = initialState, action) {
           },
         },
       };
+    case UserConstants.REMOVE_DATE_SUCCESS:
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          lenses: {
+            ...state.data.lenses,
+            swapDates: state.data.lenses.swapDates.filter(
+              (item) => item != action.date
+            ),
+          },
+        },
+      };
     default:
       return state;
   }

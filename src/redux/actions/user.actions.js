@@ -86,4 +86,23 @@ UserActions.addData = (data) => (dispatch) =>
       });
   });
 
+UserActions.removeDate = (date) => (dispatch) => {
+  new Promise((resolve, reject) => {
+    dispatch(AppActions.startSpinner());
+    UserServices.removeDate(date)
+      .then(() => {
+        dispatch({
+          type: UserConstants.REMOVE_DATE_SUCCESS,
+          date,
+        });
+        dispatch(AppActions.stopSpinner());
+        resolve();
+      })
+      .catch(() => {
+        dispatch(AppActions.stopSpinner());
+        reject();
+      });
+  });
+};
+
 export default UserActions;
