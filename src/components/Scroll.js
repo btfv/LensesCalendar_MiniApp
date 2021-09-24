@@ -5,6 +5,8 @@ import { Text } from '@vkontakte/vkui';
 import ScrollContainer from 'react-indiana-drag-scroll';
 import UserActions from '../redux/actions/user.actions';
 import { connect } from 'react-redux';
+import AppActions from '../redux/actions/app.actions';
+import AlertPopup from './AlertPopup';
 
 const formatDate = (string) => {
   var options = {
@@ -15,7 +17,7 @@ const formatDate = (string) => {
   return new Date(string).toLocaleDateString([], options);
 };
 
-const Scroll = ({ dates, removeDate }) => {
+const Scroll = ({ dates, removeDate, openPopout }) => {
   return (
     <ScrollContainer
       style={{
@@ -33,7 +35,16 @@ const Scroll = ({ dates, removeDate }) => {
           weight='regular'
           style={{ marginBottom: 14, 'font-size': '24px' }}
           onClick={() => {
-            removeDate(date);
+            openPopout(
+              <AlertPopup
+                onClick={() => removeDate(date)}
+                onClose={() => openPopout(null)}
+                header='Удаление даты'
+                text={
+                  'Вы уверены, что хотите удалить ' + formatDate(date) + '?'
+                }
+              />
+            );
           }}
         >
           {formatDate(date)}
@@ -53,6 +64,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   removeDate: UserActions.removeDate,
+  openPopout: AppActions.setPopout,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Scroll);

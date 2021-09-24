@@ -16,7 +16,7 @@ import {
 } from '@vkontakte/vkui';
 import UserActions from '../redux/actions/user.actions';
 import { connect } from 'react-redux';
-import Scroll from './Scroll';
+import Scroll from '../components/Scroll';
 import lensesPicture from '../img/logo.png';
 
 function addDays(date, days) {

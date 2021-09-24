@@ -15,7 +15,8 @@ import AddData from './panels/AddData';
 import UserActions from './redux/actions/user.actions';
 
 const App = (props) => {
-  const { spin, startSpinner, stopSpinner, data, getData, auth } = props;
+  const { spin, startSpinner, stopSpinner, data, getData, auth, alertModal } =
+    props;
 
   const [activePanel, setActivePanel] = useState('home');
   const [fetchedUser, setUser] = useState(null);
@@ -55,13 +56,11 @@ const App = (props) => {
         }
       });
   }, []);
+  const popout = spin ? <ScreenSpinner size='large' /> : alertModal;
   return (
     <AdaptivityProvider>
       <AppRoot>
-        <View
-          activePanel={activePanel}
-          popout={spin ? <ScreenSpinner size='large' /> : null}
-        >
+        <View activePanel={activePanel} popout={popout}>
           <Home
             id='home'
             fetchedUser={fetchedUser}
@@ -86,6 +85,7 @@ const mapStateToProps = (state) => {
   return {
     spin: state.AppReducer.spin,
     data: state.UserReducer.data,
+    alertModal: state.AppReducer.popout,
   };
 };
 
