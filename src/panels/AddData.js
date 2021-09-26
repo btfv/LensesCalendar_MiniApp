@@ -14,7 +14,6 @@ import {
   FormLayoutGroup,
   Select,
   CustomSelectOption,
-  Text,
 } from '@vkontakte/vkui';
 import UserActions from '../redux/actions/user.actions';
 import { connect } from 'react-redux';

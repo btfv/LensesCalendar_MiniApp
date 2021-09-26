@@ -3,12 +3,8 @@ import PropTypes from 'prop-types';
 
 import {
   Panel,
-  PanelHeader,
-  Header,
   Group,
-  Cell,
   Div,
-  Avatar,
   Text,
   Button,
   Caption,
@@ -18,6 +14,7 @@ import UserActions from '../redux/actions/user.actions';
 import { connect } from 'react-redux';
 import Scroll from '../components/Scroll';
 import lensesPicture from '../img/logo.png';
+import Calendar from 'react-calendar';
 
 function addDays(date, days) {
   var result = new Date(date);
@@ -203,17 +200,30 @@ const Home = ({ id, go, lensesInfo, liquidInfo, swapLenses, swapLiquid }) => {
                 ''
               )}
               {lensesInfo.swapDates && lensesInfo.swapDates.length ? (
-                <Caption
-                  weight='regular'
-                  style={{
-                    'text-align': 'center',
-                    marginBottom: 16,
-                    fontSize: '14px',
-                    color: '#909499',
-                  }}
-                >
-                  Последние смены
-                </Caption>
+                <div>
+                  <Caption
+                    weight='regular'
+                    style={{
+                      'text-align': 'center',
+                      // marginBottom: 16,
+                      fontSize: '14px',
+                      color: '#909499',
+                    }}
+                  >
+                    Последние смены
+                  </Caption>
+                  <Caption
+                    weight='regular'
+                    style={{
+                      'text-align': 'center',
+                      marginBottom: 16,
+                      fontSize: '14px',
+                      color: '#909499',
+                    }}
+                  >
+                    Для удаления нажмите на дату
+                  </Caption>
+                </div>
               ) : (
                 ''
               )}
