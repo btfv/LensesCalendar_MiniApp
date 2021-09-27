@@ -14,6 +14,7 @@ import {
   FormLayoutGroup,
   Select,
   CustomSelectOption,
+  PanelHeaderClose,
 } from '@vkontakte/vkui';
 import UserActions from '../redux/actions/user.actions';
 import { connect } from 'react-redux';
@@ -28,7 +29,9 @@ const AddData = ({
 }) => {
   return (
     <Panel id={id}>
-      <PanelHeader>Изменение данных</PanelHeader>
+      <PanelHeader left={<PanelHeaderClose onClick={go} data-to='home' />}>
+        Изменение данных
+      </PanelHeader>
       <Group
         header={
           <Header mode='secondary'>
@@ -111,6 +114,7 @@ const AddData = ({
                   }
                   return a;
                 })()}
+                defaultValue={lensesInfo.dioptreLeft}
                 renderOption={({ option, ...restProps }) => (
                   <CustomSelectOption {...restProps} />
                 )}
@@ -127,6 +131,7 @@ const AddData = ({
                   }
                   return a;
                 })()}
+                defaultValue={lensesInfo.curvatureLeft}
                 renderOption={({ option, ...restProps }) => (
                   <CustomSelectOption {...restProps} />
                 )}
@@ -145,6 +150,7 @@ const AddData = ({
                   }
                   return a;
                 })()}
+                defaultValue={lensesInfo.dioptreRight}
                 renderOption={({ option, ...restProps }) => (
                   <CustomSelectOption {...restProps} />
                 )}
@@ -157,13 +163,17 @@ const AddData = ({
                 options={(() => {
                   var a = [];
                   for (let i = -15; i <= 15; i = i + 0.25) {
-                    a.push({ value: i, label: i });
+                    a.push({
+                      value: i,
+                      label: i,
+                    });
                   }
                   return a;
                 })()}
-                renderOption={({ option, ...restProps }) => (
-                  <CustomSelectOption {...restProps} />
-                )}
+                defaultValue={lensesInfo.curvatureRight}
+                renderOption={({ option, ...restProps }) => {
+                  return <CustomSelectOption {...restProps} />;
+                }}
               />
             </FormItem>
           </FormLayoutGroup>
@@ -193,21 +203,6 @@ const AddData = ({
             </Button>
           </FormItem>
         </FormLayout>
-        {liquidInfo || lensesInfo ? (
-          <Div>
-            <Button
-              stretched
-              size='l'
-              mode='secondary'
-              onClick={go}
-              data-to='home'
-            >
-              Назад
-            </Button>
-          </Div>
-        ) : (
-          ''
-        )}
       </Group>
     </Panel>
   );
