@@ -114,7 +114,7 @@ const AddData = ({
                   }
                   return a;
                 })()}
-                defaultValue={lensesInfo.dioptreLeft}
+                defaultValue={lensesInfo ? lensesInfo.dioptreLeft : null}
                 renderOption={({ option, ...restProps }) => (
                   <CustomSelectOption {...restProps} />
                 )}
@@ -131,7 +131,7 @@ const AddData = ({
                   }
                   return a;
                 })()}
-                defaultValue={lensesInfo.curvatureLeft}
+                defaultValue={lensesInfo ? lensesInfo.curvatureLeft : null}
                 renderOption={({ option, ...restProps }) => (
                   <CustomSelectOption {...restProps} />
                 )}
@@ -150,7 +150,7 @@ const AddData = ({
                   }
                   return a;
                 })()}
-                defaultValue={lensesInfo.dioptreRight}
+                defaultValue={lensesInfo ? lensesInfo.dioptreRight : null}
                 renderOption={({ option, ...restProps }) => (
                   <CustomSelectOption {...restProps} />
                 )}
@@ -170,7 +170,7 @@ const AddData = ({
                   }
                   return a;
                 })()}
-                defaultValue={lensesInfo.curvatureRight}
+                defaultValue={lensesInfo ? lensesInfo.curvatureRight : null}
                 renderOption={({ option, ...restProps }) => {
                   return <CustomSelectOption {...restProps} />;
                 }}

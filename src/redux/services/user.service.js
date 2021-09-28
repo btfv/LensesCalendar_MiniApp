@@ -79,4 +79,18 @@ UserServices.removeDate = async (date) => {
   return fetch(API_URL + reqUrl, requestOptions).then(handleResponse);
 };
 
+UserServices.clearData = async () => {
+  const requestOptions = {
+    method: 'POST',
+    withCredentials: true,
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+  };
+  let reqUrl = '/clearUserData';
+  return fetch(API_URL + reqUrl, requestOptions).then(handleResponse);
+};
+
 export default UserServices;

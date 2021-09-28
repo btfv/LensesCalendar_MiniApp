@@ -13,6 +13,7 @@ import Home from './panels/Home';
 import AppActions from './redux/actions/app.actions';
 import AddData from './panels/AddData';
 import UserActions from './redux/actions/user.actions';
+import Modal from './panels/Modal';
 
 const App = (props) => {
   const { spin, startSpinner, stopSpinner, data, getData, auth, alertModal } =
@@ -60,7 +61,7 @@ const App = (props) => {
   return (
     <AdaptivityProvider>
       <AppRoot>
-        <View activePanel={activePanel} popout={popout}>
+        <View activePanel={activePanel} popout={popout} modal={<Modal />}>
           <Home
             id='home'
             fetchedUser={fetchedUser}

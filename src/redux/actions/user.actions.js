@@ -1,7 +1,7 @@
 import UserConstants from '../constants/user.constants';
 import UserServices from '../services/user.service';
 import AppActions from './app.actions';
-
+import bridge from '@vkontakte/vk-bridge';
 const UserActions = {};
 
 UserActions.auth = (params) => (dispatch) =>
@@ -97,6 +97,23 @@ UserActions.removeDate = (date) => (dispatch) => {
         });
         dispatch(AppActions.stopSpinner());
         resolve();
+      })
+      .catch(() => {
+        dispatch(AppActions.stopSpinner());
+        reject();
+      });
+  });
+};
+
+UserActions.clearData = () => (dispatch) => {
+  new Promise((resolve, reject) => {
+    dispatch(AppActions.startSpinner());
+    UserServices.clearData()
+      .then(() => {
+        dispatch(AppActions.stopSpinner());
+        bridge.send('VKWebAppClose').then(() => {
+          resolve();
+        });
       })
       .catch(() => {
         dispatch(AppActions.stopSpinner());

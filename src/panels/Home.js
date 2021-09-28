@@ -9,12 +9,17 @@ import {
   Button,
   Caption,
   Progress,
+  PanelHeader,
+  PanelHeaderButton,
+  Footer,
 } from '@vkontakte/vkui';
 import UserActions from '../redux/actions/user.actions';
 import { connect } from 'react-redux';
 import Scroll from '../components/Scroll';
 import lensesPicture from '../img/logo.png';
-import Calendar from 'react-calendar';
+import { Icon28Notifications, Icon28Settings } from '@vkontakte/icons';
+import ModalActions from '../redux/actions/modal.actions';
+import { MODAL_PAGE_SETTINGS } from '../constants/modal.constants';
 
 function addDays(date, days) {
   var result = new Date(date);
@@ -30,7 +35,15 @@ function formatDate(string) {
   return new Date(string).toLocaleDateString([], options);
 }
 
-const Home = ({ id, go, lensesInfo, liquidInfo, swapLenses, swapLiquid }) => {
+const Home = ({
+  id,
+  go,
+  lensesInfo,
+  liquidInfo,
+  swapLenses,
+  swapLiquid,
+  changeModal,
+}) => {
   if (!lensesInfo) return '';
   const lensesProgressValue =
     lensesInfo.swapDates && lensesInfo.swapDates.length
@@ -48,6 +61,15 @@ const Home = ({ id, go, lensesInfo, liquidInfo, swapLenses, swapLiquid }) => {
       : 0;
   return (
     <Panel id={id}>
+      <PanelHeader
+        // left={
+        //   <PanelHeaderButton>
+        //     <Icon28Notifications />
+        //   </PanelHeaderButton>
+        // }
+      >
+        Главная
+      </PanelHeader>
       <Group>
         {lensesInfo && (
           <Div>
@@ -115,7 +137,7 @@ const Home = ({ id, go, lensesInfo, liquidInfo, swapLenses, swapLiquid }) => {
                 weight='regular'
                 style={{
                   margin: 5,
-                  'text-align': 'center',
+                  textAlign: 'center',
                   fontSize: '14px',
                   color: '#909499',
                 }}
@@ -178,7 +200,7 @@ const Home = ({ id, go, lensesInfo, liquidInfo, swapLenses, swapLiquid }) => {
               <Caption
                 weight='regular'
                 style={{
-                  'text-align': 'center',
+                  textAlign: 'center',
                   marginBottom: 16,
                   fontSize: '14px',
                   color: '#909499',
@@ -204,7 +226,7 @@ const Home = ({ id, go, lensesInfo, liquidInfo, swapLenses, swapLiquid }) => {
                   <Caption
                     weight='regular'
                     style={{
-                      'text-align': 'center',
+                      textAlign: 'center',
                       // marginBottom: 16,
                       fontSize: '14px',
                       color: '#909499',
@@ -215,7 +237,7 @@ const Home = ({ id, go, lensesInfo, liquidInfo, swapLenses, swapLiquid }) => {
                   <Caption
                     weight='regular'
                     style={{
-                      'text-align': 'center',
+                      textAlign: 'center',
                       marginBottom: 16,
                       fontSize: '14px',
                       color: '#909499',
@@ -247,7 +269,7 @@ const Home = ({ id, go, lensesInfo, liquidInfo, swapLenses, swapLiquid }) => {
                 <Caption
                   weight='regular'
                   style={{
-                    'text-align': 'center',
+                    textAlign: 'center',
                     fontSize: '14px',
                     color: '#909499',
                   }}
@@ -283,7 +305,7 @@ const Home = ({ id, go, lensesInfo, liquidInfo, swapLenses, swapLiquid }) => {
               <Caption
                 weight='regular'
                 style={{
-                  'text-align': 'center',
+                  textAlign: 'center',
                   marginBottom: 16,
                   fontSize: '14px',
                   color: '#909499',
@@ -312,6 +334,18 @@ const Home = ({ id, go, lensesInfo, liquidInfo, swapLenses, swapLiquid }) => {
             Изменить информацию
           </Button>
         </Div>
+        <Div>
+          <Button
+            stretched
+            size='l'
+            mode='secondary'
+            onClick={() => {
+              changeModal(MODAL_PAGE_SETTINGS);
+            }}
+          >
+            <Icon28Settings />
+          </Button>
+        </Div>
       </Group>
     </Panel>
   );
@@ -321,13 +355,13 @@ Home.propTypes = {
   id: PropTypes.string.isRequired,
   go: PropTypes.func.isRequired,
   lensesInfo: PropTypes.shape({
-    manufacturer: PropTypes.string,
-    name: PropTypes.string,
-    periodicity: PropTypes.number,
-    dioptreLeft: PropTypes.number,
-    dioptreRight: PropTypes.number,
-    curvatureLeft: PropTypes.number,
-    curvatureRight: PropTypes.number,
+    manufacturer: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    periodicity: PropTypes.number.isRequired,
+    dioptreLeft: PropTypes.number.isRequired,
+    dioptreRight: PropTypes.number.isRequired,
+    curvatureLeft: PropTypes.number.isRequired,
+    curvatureRight: PropTypes.number.isRequired,
     swapDates: PropTypes.arrayOf(PropTypes.string),
   }),
   liquidInfo: PropTypes.shape({
@@ -344,6 +378,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   swapLenses: UserActions.swapLenses,
   swapLiquid: UserActions.swapLiquid,
+  changeModal: ModalActions.changeModal,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
