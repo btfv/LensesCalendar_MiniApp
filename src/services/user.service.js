@@ -93,4 +93,19 @@ UserServices.clearData = async () => {
   return fetch(API_URL + reqUrl, requestOptions).then(handleResponse);
 };
 
+UserServices.setNotificationsMode = async (mode) => {
+  const requestOptions = {
+    method: 'POST',
+    withCredentials: true,
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+    body: JSON.stringify({ allowNotifications : mode }),
+  };
+  let reqUrl = '/setNotificationsMode';
+  return fetch(API_URL + reqUrl, requestOptions).then(handleResponse);
+};
+
 export default UserServices;

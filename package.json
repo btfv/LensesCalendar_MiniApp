@@ -1,9 +1,9 @@
 {
   "name": "mini-app",
-  "homepage": "./",
+  "homepage": "https://front.btfv.ru",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./src/index.js",
   "scripts": {
     "dev": "cross-env PORT=10888 HTTPS=false NODE_ENV=development react-scripts start",
     "build": "react-scripts build",
@@ -38,7 +38,8 @@
     "react-indiana-drag-scroll": "^2.0.1",
     "react-redux": "^7.2.3",
     "react-router": "^5.2.0",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "sass": "^1.42.1"
   },
   "browserslist": {
     "production": [

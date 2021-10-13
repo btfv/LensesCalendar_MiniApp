@@ -1,24 +1,29 @@
 import UserConstants from '../constants/user.constants';
-import UserServices from '../services/user.service';
+import UserServices from '../../services/user.service';
 import AppActions from './app.actions';
-import bridge from '@vkontakte/vk-bridge';
+import { CloseApp } from '../../services/vk_bridge.service';
+import { PANELS_FAILEDLAUNCH } from '../../constants/panels.constants';
 const UserActions = {};
 
 UserActions.auth = (params) => (dispatch) =>
-  new Promise((resolve, reject) => {
+  new Promise(async (resolve, reject) => {
     dispatch(AppActions.startSpinner());
-    UserServices.auth(params)
-      .then(() => {
+    await UserServices.auth(params)
+      .then((response) => {
+        dispatch(
+          AppActions.setNotificationsMode(response.notificationsAllowed)
+        );
         dispatch(AppActions.stopSpinner());
-        resolve();
+        resolve(response);
       })
       .catch(() => {
         dispatch(AppActions.stopSpinner());
+        dispatch(AppActions.setActivePanel(PANELS_FAILEDLAUNCH));
         reject();
       });
   });
 
-UserActions.getData = () => (dispatch) =>
+UserActions.getData = (dispatch) =>
   new Promise((resolve, reject) => {
     dispatch(AppActions.startSpinner());
     UserServices.getData()
@@ -111,7 +116,7 @@ UserActions.clearData = () => (dispatch) => {
     UserServices.clearData()
       .then(() => {
         dispatch(AppActions.stopSpinner());
-        bridge.send('VKWebAppClose').then(() => {
+        CloseApp().then(() => {
           resolve();
         });
       })

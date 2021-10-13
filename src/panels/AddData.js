@@ -50,8 +50,6 @@ const AddData = ({
               curvatureLeft,
               curvatureRight,
               lensesPeriodicity,
-              // liquidName,
-              // liquidManufacturer,
             } = e.target;
             const dataToSubmit = {
               lenses: {
@@ -63,10 +61,6 @@ const AddData = ({
                 curvatureRight: curvatureRight.value,
                 periodicity: lensesPeriodicity.value,
               },
-              // liquid: {
-              //   name: liquidName.value,
-              //   manufacturer: liquidManufacturer.value,
-              // },
             };
             submitInfo(dataToSubmit).then(successRedirect);
           }}
@@ -103,13 +97,13 @@ const AddData = ({
             />
           </FormItem>
           <FormLayoutGroup mode='horizontal'>
-            <FormItem top='Диоптрии левой линзы'>
+            <FormItem top='Кривизна левой линзы'>
               <Select
-                name='dioptreLeft'
+                name='curvatureLeft'
                 placeholder='Не выбрана'
                 options={(() => {
                   var a = [];
-                  for (let i = 80; i <= 90; i = i + 2) {
+                  for (let i = 70; i <= 90; i = i + 2) {
                     a.push({ value: i / 10, label: i / 10 });
                   }
                   return a;
@@ -120,9 +114,9 @@ const AddData = ({
                 )}
               />
             </FormItem>
-            <FormItem top='Кривизна левой линзы'>
+            <FormItem top='Диоптрии левой линзы'>
               <Select
-                name='curvatureLeft'
+                name='dioptreLeft'
                 placeholder='Не выбрана'
                 options={(() => {
                   var a = [];
@@ -139,13 +133,13 @@ const AddData = ({
             </FormItem>
           </FormLayoutGroup>
           <FormLayoutGroup mode='horizontal'>
-            <FormItem top='Диоптрии правой линзы'>
+            <FormItem top='Кривизна правой линзы'>
               <Select
-                name='dioptreRight'
+                name='curvatureRight'
                 placeholder='Не выбрана'
                 options={(() => {
                   var a = [];
-                  for (let i = 80; i <= 90; i = i + 2) {
+                  for (let i = 70; i <= 90; i = i + 2) {
                     a.push({ value: i / 10, label: i / 10 });
                   }
                   return a;
@@ -156,9 +150,9 @@ const AddData = ({
                 )}
               />
             </FormItem>
-            <FormItem top='Кривизна правой линзы'>
+            <FormItem top='Дипотрии правой линзы'>
               <Select
-                name='curvatureRight'
+                name='dioptreRight'
                 placeholder='Не выбрана'
                 options={(() => {
                   var a = [];
@@ -177,26 +171,6 @@ const AddData = ({
               />
             </FormItem>
           </FormLayoutGroup>
-          {/*<FormItem top='Название жидкости'>
-            <Input
-              type='text'
-              name='liquidName'
-              defaultValue={
-                liquidInfo && liquidInfo.name ? liquidInfo.name : ''
-              }
-            />
-          </FormItem>
-          <FormItem top='Производитель жидкости'>
-            <Input
-              type='text'
-              name='liquidManufacturer'
-              defaultValue={
-                liquidInfo && liquidInfo.manufacturer
-                  ? liquidInfo.manufacturer
-                  : ''
-              }
-            />
-          </FormItem>*/}
           <FormItem>
             <Button size='l' stretched type='submit'>
               Сохранить
@@ -220,11 +194,6 @@ AddData.propTypes = {
     dioptreRight: PropTypes.number,
     curvatureLeft: PropTypes.number,
     curvatureRight: PropTypes.number,
-    swapDates: PropTypes.arrayOf(PropTypes.string),
-  }),
-  liquidInfo: PropTypes.shape({
-    lensesManufacturer: PropTypes.string,
-    name: PropTypes.string,
     swapDates: PropTypes.arrayOf(PropTypes.string),
   }),
   submitInfo: PropTypes.func,

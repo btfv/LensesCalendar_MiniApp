@@ -1,0 +1,77 @@
+@keyframes anim_1 {
+  from {
+    transform: translate3d(0vw, 0vw, 0) rotate(360deg);
+    visibility: visible;
+  }
+
+  to {
+    transform: translate3d(calc(100vw - 100px), calc(30vh - 100px), 0)
+      rotate(0deg);
+  }
+}
+
+@keyframes anim_2 {
+  from {
+    transform: translate3d(0vw, 20vh, 0) rotate(360deg);
+    visibility: visible;
+  }
+
+  to {
+    transform: translate3d(calc(100vw - 100px), calc(75vh - 100px), 0)
+      rotate(0deg);
+  }
+}
+
+@keyframes anim_3 {
+  from {
+    transform: translate3d(0vw, 50vh, 0) rotate(360deg);
+    visibility: visible;
+  }
+
+  to {
+    transform: translate3d(calc(100vw - 100px), random(30) + vh, 0) rotate(0deg);
+  }
+}
+
+@keyframes anim_4 {
+  from {
+    transform: translate3d(0vw, 80vh, 0) rotate(360deg);
+    visibility: visible;
+  }
+
+  to {
+    transform: translate3d(calc(100vw - 100px), random(80) + vh, 0) rotate(0deg);
+  }
+}
+
+.slideInRight {
+  z-index: 3;
+  width: 100px;
+  position: absolute;
+  animation-iteration-count: infinite;
+  animation-fill-mode: both;
+  animation-direction: alternate;
+  animation-play-state: running;
+  animation-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.anim_1 {
+  animation-duration: 4 + random(6) + s;
+  animation-name: anim_1;
+  animation-delay: random(1000) + ms;
+}
+.anim_2 {
+  animation-duration: 4 + random(6) + s;
+  animation-name: anim_2;
+  animation-delay: random(1000) + ms;
+}
+.anim_3 {
+  animation-duration: 4 + random(6) + s;
+  animation-name: anim_3;
+  animation-delay: random(1000) + ms;
+}
+.anim_4 {
+  animation-duration: 5 + random(5) + s;
+  animation-name: anim_4;
+  animation-delay: random(1000) + ms;
+}

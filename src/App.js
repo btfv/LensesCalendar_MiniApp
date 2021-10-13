@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import bridge from '@vkontakte/vk-bridge';
 import {
   View,
   ScreenSpinner,
@@ -10,72 +9,47 @@ import '@vkontakte/vkui/dist/vkui.css';
 import { connect } from 'react-redux';
 
 import Home from './panels/Home';
-import AppActions from './redux/actions/app.actions';
 import AddData from './panels/AddData';
-import UserActions from './redux/actions/user.actions';
 import Modal from './panels/Modal';
 
+import { InitApp } from './services/app.service';
+import {
+  PANELS_CHANGEDATA,
+  PANELS_FAILEDLAUNCH,
+  PANELS_HOME,
+  PANELS_WELCOME,
+} from './constants/panels.constants';
+import AppActions from './redux/actions/app.actions';
+import FailedLaunch from './panels/FailedLaunch';
+import Welcome from './panels/Welcome';
+
 const App = (props) => {
-  const { spin, startSpinner, stopSpinner, data, getData, auth, alertModal } =
-    props;
+  const { spin, data, alertModal, activePanel, setActivePanel } = props;
 
-  const [activePanel, setActivePanel] = useState('home');
-  const [fetchedUser, setUser] = useState(null);
-
-  const search = window.location.search;
-  const params = new URLSearchParams(search);
-  const paramsToObject = (entries) => {
-    const result = {};
-    for (const [key, value] of entries) {
-      result[key] = value;
-    }
-    return result;
-  };
   const go = (e) => {
     setActivePanel(e.currentTarget.dataset.to);
   };
-  useEffect(() => {
-    bridge.subscribe(({ detail: { type, data } }) => {
-      if (type === 'VKWebAppUpdateConfig') {
-        const schemeAttribute = document.createAttribute('scheme');
-        schemeAttribute.value = data.scheme ? data.scheme : 'client_light';
-        document.body.attributes.setNamedItem(schemeAttribute);
-      }
-    });
-    async function fetchData() {
-      startSpinner();
-      const user = await bridge.send('VKWebAppGetUserInfo');
-      setUser(user);
-      stopSpinner();
-    }
-    if (process.env.NODE_ENV === 'production') fetchData();
-    auth(paramsToObject(params))
-      .then(getData)
-      .then((receivedData) => {
-        if (!receivedData.lenses && !receivedData.liquid) {
-          setActivePanel('addData');
-        }
-      });
-  }, []);
+  useEffect(InitApp, []);
   const popout = spin ? <ScreenSpinner size='large' /> : alertModal;
   return (
     <AdaptivityProvider>
       <AppRoot>
         <View activePanel={activePanel} popout={popout} modal={<Modal />}>
           <Home
-            id='home'
-            fetchedUser={fetchedUser}
+            id={PANELS_HOME}
             lensesInfo={data.lenses}
             liquidInfo={data.liquid}
             go={go}
           />
           <AddData
-            id='addData'
+            id={PANELS_CHANGEDATA}
             lensesInfo={data.lenses}
             liquidInfo={data.liquid}
             go={go}
-            successRedirect={() => setActivePanel('home')}
+            successRedirect={() => setActivePanel(PANELS_HOME)}
           />
+          <FailedLaunch id={PANELS_FAILEDLAUNCH} />
+          <Welcome id={PANELS_WELCOME} go={() => setActivePanel(PANELS_CHANGEDATA)} />
         </View>
       </AppRoot>
     </AdaptivityProvider>
@@ -87,14 +61,12 @@ const mapStateToProps = (state) => {
     spin: state.AppReducer.spin,
     data: state.UserReducer.data,
     alertModal: state.AppReducer.popout,
+    activePanel: state.AppReducer.activePanel,
   };
 };
 
 const mapDispatchToProps = {
-  startSpinner: AppActions.startSpinner,
-  getData: UserActions.getData,
-  stopSpinner: AppActions.stopSpinner,
-  auth: UserActions.auth,
+  setActivePanel: AppActions.setActivePanel,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

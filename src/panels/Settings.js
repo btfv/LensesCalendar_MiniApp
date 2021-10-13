@@ -10,15 +10,36 @@ import {
 } from '@vkontakte/vkui';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import AppActions from '../redux/actions/app.actions';
 import UserActions from '../redux/actions/user.actions';
+import {
+  AllowNotifications,
+  DenyNotifications,
+} from '../services/vk_bridge.service';
 
-const Settings = ({ id, clearData }) => {
+const Settings = ({
+  id,
+  clearData,
+  notificationsAllowed,
+  setNotificationsModeAndUpdateOnServer,
+}) => {
   return (
     <ModalPage id={id}>
       <ModalPageHeader>Настройки</ModalPageHeader>
       <Div>
         <Group>
-          <Cell disabled after={<Switch />}>
+          <Cell
+            after={
+              <Switch
+                checked={notificationsAllowed}
+                onChange={() => {
+                  notificationsAllowed
+                    ? DenyNotifications()
+                    : AllowNotifications();
+                }}
+              />
+            }
+          >
             Уведомление
           </Cell>
         </Group>
@@ -43,11 +64,13 @@ Settings.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  return {};
+  return { notificationsAllowed: state.AppReducer.config.notificationsAllowed };
 };
 
 const mapDispatchToProps = {
   clearData: UserActions.clearData,
+  setNotificationsModeAndUpdateOnServer:
+    AppActions.setNotificationsModeAndUpdateOnServer,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Settings);
