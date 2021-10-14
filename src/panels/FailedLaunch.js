@@ -11,6 +11,7 @@ const FailedLaunch = ({ id }) => {
       <ModalCardBase
         style={{ width: 450, margin: 'auto' }}
         header='Сервис временно недоступен'
+        subheader='😔😔😔'
         icon={<Icon56ErrorOutline key='icon' />}
         onClose={() => {
           CloseApp();

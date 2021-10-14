@@ -15,7 +15,7 @@ const Welcome = ({ id, go }) => {
         style={{
           height: '100%',
           width: '100%',
-          background: '#2975CC',
+          background: '#2787F5',
           position: 'fixed',
           zIndex: 1,
         }}
@@ -30,15 +30,11 @@ const Welcome = ({ id, go }) => {
           margin: 'auto',
           zIndex: 2,
           textAlign: 'center',
-          maxWidth: '500px',
+          maxWidth: '600px',
         }}
       >
-        <Text style={{ marginBottom: '16px' }}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla pretium
-          rutrum est ut mollis. Nam malesuada, ligula eget blandit ornare, massa
-          nibh ultricies tortor, volutpat auctor mauris nibh non quam. Donec ac
-          lacinia libero. Nunc fringilla molestie lorem, eget fermentum neque
-          elementum id. Vestibulum gravida a mi ac feugiat.
+        <Text style={{ marginBottom: '16px', fontSize: '28px' }}>
+          Сервис, который уведомляет Вас о необходимости смены линз
         </Text>
         <Button
           onClick={go}
@@ -46,10 +42,10 @@ const Welcome = ({ id, go }) => {
           mode='overlay_primary'
           style={{ width: '200px', marginBottom: '16px' }}
         >
-          Продолжить
+          Ввести данные
         </Button>
         <Caption weight='regular' style={{ color: '#000000BF' }}>
-          Нажимая, вы соглашаетесь с правилами сервиса
+          Нажимая, вы соглашаетесь с правилами
         </Caption>
       </div>
     </Panel>
