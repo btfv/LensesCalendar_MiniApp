@@ -89,7 +89,11 @@ const AddData = ({
 
   return (
     <Panel id={id}>
-      <PanelHeader left={<PanelHeaderClose onClick={go} data-to='home' />}>
+      <PanelHeader
+        left={
+          lensesInfo ? <PanelHeaderClose onClick={go} data-to='home' /> : ''
+        }
+      >
         Изменение данных
       </PanelHeader>
       <Group
@@ -104,15 +108,15 @@ const AddData = ({
             e.preventDefault();
             const dataToSubmit = {
               lenses: {
-                name: lensesName.value,
-                manufacturer: lensesManufacturer.value,
-                dioptreLeft: dioptreLeft.value,
-                dioptreRight: dioptreRight.value,
-                curvatureLeft: curvatureLeft.value,
-                curvatureRight: curvatureRight.value,
+                name: lensesName,
+                // manufacturer: lensesManufacturer,
+                dioptreLeft: dioptreLeft,
+                dioptreRight: dioptreRight,
+                curvatureLeft: curvatureLeft,
+                curvatureRight: curvatureRight,
                 periodicity: !isPeriodicityCustomFormOpened
-                  ? lensesPeriodicity.value
-                  : lensesPeriodicity_custom.value,
+                  ? lensesPeriodicity
+                  : lensesPeriodicity_custom,
               },
             };
             submitInfo(dataToSubmit).then(successRedirect);
@@ -170,7 +174,10 @@ const AddData = ({
                   { value: 14, label: 'Две недели' },
                   { value: 30, label: 'Один месяц' },
                   { value: 90, label: 'Три месяца' },
-                  { value: CUSTOM_PERIODICITY_MODE_VALUE, label: 'Ввод вручную' },
+                  {
+                    value: CUSTOM_PERIODICITY_MODE_VALUE,
+                    label: 'Ввод вручную',
+                  },
                 ];
                 return a;
               })()}
@@ -206,7 +213,7 @@ const AddData = ({
                 placeholder='Не выбрана'
                 options={(() => {
                   var a = [];
-                  for (let i = 70; i <= 90; i = i + 2) {
+                  for (let i = 78; i <= 95; i = i + 1) {
                     a.push({ value: i / 10, label: i / 10 });
                   }
                   return a;
@@ -217,14 +224,14 @@ const AddData = ({
                 onChange={onChange}
               />
             </FormItem>
-            <FormItem top='Диоптрии левой линзы'>
+            <FormItem top='Оптическая сила (диоптрии) левой линзы'>
               <Select
                 value={dioptreLeft}
                 name='dioptreLeft'
                 placeholder='Не выбрана'
                 options={(() => {
                   var a = [];
-                  for (let i = -15; i <= 15; i = i + 0.25) {
+                  for (let i = -20; i <= 20; i = i + 0.25) {
                     a.push({ value: i, label: i });
                   }
                   return a;
@@ -244,7 +251,7 @@ const AddData = ({
                 placeholder='Не выбрана'
                 options={(() => {
                   var a = [];
-                  for (let i = 70; i <= 90; i = i + 2) {
+                  for (let i = 78; i <= 95; i = i + 1) {
                     a.push({ value: i / 10, label: i / 10 });
                   }
                   return a;
@@ -255,14 +262,14 @@ const AddData = ({
                 onChange={onChange}
               />
             </FormItem>
-            <FormItem top='Дипотрии правой линзы'>
+            <FormItem top='Оптическая сила (диоптрии) правой линзы'>
               <Select
                 value={dioptreRight}
                 name='dioptreRight'
                 placeholder='Не выбрана'
                 options={(() => {
                   var a = [];
-                  for (let i = -15; i <= 15; i = i + 0.25) {
+                  for (let i = -20; i <= 20; i = i + 0.25) {
                     a.push({
                       value: i,
                       label: i,

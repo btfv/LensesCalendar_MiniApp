@@ -19,4 +19,21 @@ const FormatDate = (string) => {
   return new Date(string).toLocaleDateString([], options);
 };
 
-export { ParamsToObject, AddDays, FormatDate };
+const GetDayAddition = (day) => {
+  const preLastDigit = parseInt((day % 100) / 10, 10);
+  if (preLastDigit === 1) {
+    return 'дней';
+  }
+  switch (day % 10) {
+    case 1:
+      return 'день';
+    case 2:
+    case 3:
+    case 4:
+      return 'дня';
+    default:
+      return 'дней';
+  }
+};
+
+export { ParamsToObject, AddDays, FormatDate, GetDayAddition };

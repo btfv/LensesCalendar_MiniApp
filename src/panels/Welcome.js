@@ -33,7 +33,14 @@ const Welcome = ({ id, go }) => {
           maxWidth: '600px',
         }}
       >
-        <Text style={{ marginBottom: '16px', fontSize: '28px' }}>
+        <Text
+          style={{
+            marginBottom: '16px',
+            fontSize: '28px',
+            color: '#FFFFFF',
+            lineHeight: '32px',
+          }}
+        >
           Сервис, который уведомляет Вас о необходимости смены линз
         </Text>
         <Button
@@ -44,9 +51,9 @@ const Welcome = ({ id, go }) => {
         >
           Ввести данные
         </Button>
-        <Caption weight='regular' style={{ color: '#000000BF' }}>
+        {/* <Caption weight='regular' style={{ color: '#000000BF' }}>
           Нажимая, вы соглашаетесь с правилами
-        </Caption>
+        </Caption> */}
       </div>
     </Panel>
   );

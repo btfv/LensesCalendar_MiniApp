@@ -23,23 +23,23 @@
 }
 
 @keyframes anim_3 {
-  from {
+  to {
     transform: translate3d(0vw, 50vh, 0) rotate(360deg);
     visibility: visible;
   }
 
-  to {
+  from {
     transform: translate3d(calc(100vw - 100px), random(30) + vh, 0) rotate(0deg);
   }
 }
 
 @keyframes anim_4 {
-  from {
+  to {
     transform: translate3d(0vw, 80vh, 0) rotate(360deg);
     visibility: visible;
   }
 
-  to {
+  from {
     transform: translate3d(calc(100vw - 100px), random(80) + vh, 0) rotate(0deg);
   }
 }

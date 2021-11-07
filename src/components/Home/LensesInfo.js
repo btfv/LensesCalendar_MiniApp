@@ -2,7 +2,7 @@ import { Caption, Div, Progress, Text } from '@vkontakte/vkui';
 import PropTypes from 'prop-types';
 import Scroll from './SwapDatesHistory';
 import HomeElement from './HomeElement';
-import { FormatDate, AddDays } from '../../utils/utils.js';
+import { FormatDate, AddDays, GetDayAddition } from '../../utils/utils.js';
 
 const LensesInfo = ({ info }) => {
   if (info.periodicity <= 0) {
@@ -75,7 +75,7 @@ const LensesInfo = ({ info }) => {
       )}
       {info.periodicity ? (
         <HomeElement
-          value={info.periodicity + ' дней'}
+          value={info.periodicity + ' ' + GetDayAddition(info.periodicity)}
           caption='Периодичность замены'
         />
       ) : (
