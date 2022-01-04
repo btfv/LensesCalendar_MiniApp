@@ -18,7 +18,7 @@ const LensesInfo = ({ info }) => {
       : 0;
   const nextChangeDate =
     info.swapDates && info.swapDates.length && info.periodicity
-      ? FormatDate(AddDays(Date(info.swapDates[0]), info.periodicity))
+      ? FormatDate(AddDays(info.swapDates[0], info.periodicity))
       : null;
 
   return (
